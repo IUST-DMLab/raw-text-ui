@@ -1,5 +1,6 @@
 app.service('RestService', ['$http', function ($http) {
     var baseURl = 'http://dmls.iust.ac.ir:8100';
+    // var baseURl = 'http://localhost:8100';
 
     var self = this;
     this.ingoing = 0;
@@ -64,6 +65,15 @@ app.service('RestService', ['$http', function ($http) {
         if (!OUC.isEmpty(minOccurrence)) params.minOccurrence = minOccurrence;
         if (!OUC.isEmpty(approved)) params.approved = approved;
 
+        return get(url, params);
+    };
+
+    this.approve = function (id, approved) {
+        var url = baseURl + '/rest/v1/raw/approve';
+        var params = {
+            id: id,
+            approved: approved
+        };
         return get(url, params);
     };
 }]);
