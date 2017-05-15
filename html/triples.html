@@ -1,0 +1,22 @@
+<md-content flex layout-padding>
+    <div layout="row" layout-wrap>
+        <div flex="33" ng-repeat="x in data.content">
+            <md-card md-colors="{background: '{{colors[$index]}}'}">
+                <md-card-content>
+                    <div dir="ltr">subject: {{x.subject}}</div>
+                    <div dir="ltr">predicate: {{x.predicate}}</div>
+                    <div dir="ltr">object: {{x.object}}</div>
+                    <div dir="rtl">{{x.generalizedSentence}}</div>
+                </md-card-content>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button>{{x.occurrence}}</md-button>
+                    <md-button>Action 1</md-button>
+                    <md-button>Action 2</md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
+    <section layout="row" layout-padding="">
+        {{}}
+    </section>
+</md-content>
