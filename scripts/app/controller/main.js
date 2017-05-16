@@ -98,6 +98,6 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    // $scope.switch('triples');
-    $scope.switch('rules');
+    $scope.switch('triples');
+    // $scope.switch('rules');
 });
