@@ -50,7 +50,7 @@ app.controller('MainController', function ($scope, $http, RestService,
 
     $scope.rulesOptions = {
         selected: null,
-        text: 'هادی ساعی در شهر ری چشم به جهان گشود.'
+        text: 'هادی ساعی در شهر ری متولد شد.'
     };
 
     $scope.getRules = function () {

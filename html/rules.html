@@ -1,5 +1,6 @@
 <md-content flex layout-padding layout="row">
     <md-list flex="30" role="navigation">
+        لیست قوانین
         <md-list-item class="md-3-line" ng-repeat="x in rules" style="font-size: 12px"
                       ng-click="rulesOptions.selected=x">
             <div class="md-list-item-text" layout="column">
@@ -8,6 +9,7 @@
         </md-list-item>
     </md-list>
     <div flex="70">
+        ویرایش قوانین. یکی از قانون‌های سمت راست را برای ویرایش یا حذف انتخاب کنید.
         <div flex="100" layout="row">
             <md-button class="md-raised md-primary" flex="50" ng-click="newRule()">قانون جدید</md-button>
             <md-button class="md-raised md-warn" flex="50" ng-click="removeRule()">حذف</md-button>
@@ -27,9 +29,9 @@
                 <label>متن خام</label>
                 <textarea name="text" ng-model="rulesOptions.text"></textarea>
             </md-input-container>
-            <md-button class="md-raised md-primary" ng-click="ruleTest()">تولید سه‌تایی</md-button>
-            <pre style="white-space: pre">
-                {{resultRules}}
+            <md-button class="md-raised md-primary" ng-click="ruleTest()">تولید سه‌تایی با قوانین تایید شده</md-button>
+            <pre dir="ltr" style="white-space: pre">
+{{resultRules}}
             </pre>
         </div>
     </div>
