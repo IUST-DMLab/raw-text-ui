@@ -76,6 +76,35 @@ app.service('RestService', ['$http', function ($http) {
         };
         return get(url, params);
     };
+
+    this.rules = function () {
+        var url = baseURl + '/rest/v1/raw/rules';
+        return get(url, {page: 0, pageSize: 10000});
+    };
+
+    this.editRule = function (data) {
+        var url = baseURl + '/rest/v1/raw/editRule';
+        if (OUC.isEmpty(data.approved)) data.approved = false;
+        var params = {
+            rule: data.rule,
+            approved: data.approved
+        };
+        if (!OUC.isEmpty(data.id)) params.id = data.id;
+        return get(url, params);
+    };
+
+    this.removeRule = function (id) {
+        var url = baseURl + '/rest/v1/raw/removeRule';
+        var params = {
+            id: id
+        };
+        return get(url, params);
+    };
+
+    this.ruleTest = function (data) {
+        var url = baseURl + '/rest/v1/raw/ruleTest';
+        return post(url, data);
+    };
 }]);
 
 var loading = {

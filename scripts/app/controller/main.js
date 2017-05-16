@@ -8,7 +8,6 @@ app.controller('MainController', function ($scope, $http, RestService,
         false: 'red'
     };
 
-    $scope.data = {subjects: {}, triples: {}};
     $scope.params = {
         predicate: null,
         minOccurrence: 1,
@@ -38,6 +37,8 @@ app.controller('MainController', function ($scope, $http, RestService,
 
     $scope.switch = function (tab) {
         $scope.tab = tab;
+        if (tab === 'triples') $scope.go(0);
+        else $scope.getRules();
     };
 
     $scope.vote = function (x, approved) {
@@ -47,6 +48,56 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    $scope.switch('triples');
-    $scope.go(0);
+    $scope.rulesOptions = {
+        selected: null,
+        text: 'هادی ساعی در شهر ری چشم به جهان گشود.'
+    };
+
+    $scope.getRules = function () {
+        RestService.rules()
+            .then(function (response) {
+                $scope.rules = response.data.content
+            });
+    };
+
+    $scope.newRule = function () {
+        $scope.rulesOptions.selected = {
+            id: null,
+            rule: '',
+            approved: false
+        }
+    };
+
+    $scope.editRule = function () {
+        if (!OUC.isEmpty($scope.rulesOptions.selected))
+            RestService.editRule($scope.rulesOptions.selected)
+                .then(function (response) {
+                    $scope.rulesOptions.selected.id = response.data.id;
+                });
+    };
+
+    $scope.removeRule = function () {
+        if (!OUC.isEmpty($scope.rulesOptions.selected))
+            RestService.removeRule($scope.rulesOptions.selected.id)
+                .then(function (response) {
+                    $scope.getRules();
+                });
+    };
+
+    $scope.ruleTest = function () {
+        var data = {
+            "predicates": [],
+            "rules": [],
+            "text": $scope.rulesOptions.text
+        };
+        for (var i = 0; i < $scope.rules.length; i++)
+            if ($scope.rules[i].approved) data.rules.push($scope.rules[i].rule);
+        RestService.ruleTest(data)
+            .then(function (response) {
+                $scope.resultRules = JSON.stringify(response.data, null, 2);
+            });
+    };
+
+    // $scope.switch('triples');
+    $scope.switch('rules');
 });
