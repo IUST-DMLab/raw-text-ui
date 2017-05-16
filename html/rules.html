@@ -1,10 +1,10 @@
 <md-content flex layout-padding layout="row">
     <md-list flex="30" role="navigation">
         لیست قوانین
-        <md-list-item class="md-3-line" ng-repeat="x in rules" style="font-size: 12px"
-                      ng-click="rulesOptions.selected=x">
+        <md-list-item ng-repeat="x in rules" style="font-size: 12px"
+                      ng-click="rulesOptions.selected=x" dir="ltr">
             <div class="md-list-item-text" layout="column">
-                <div dir="ltr" style="text-align: left">{{x.rule}}</div>
+                <div dir="ltr" style="text-align: left">{{x.predicate}}</div>
             </div>
         </md-list-item>
     </md-list>
@@ -20,7 +20,10 @@
                     تایید
                 </md-checkbox>
             </md-input-container>
-            <md-input-container dir="ltr" class="md-block" flex="90">
+            <md-input-container dir="ltr" class="md-block" flex="20">
+                <input ng-change="editRule()" name="rule" ng-model="rulesOptions.selected.predicate">
+            </md-input-container>
+            <md-input-container dir="ltr" class="md-block" flex="70">
                 <textarea ng-change="editRule()" name="rule" ng-model="rulesOptions.selected.rule"></textarea>
             </md-input-container>
         </div>

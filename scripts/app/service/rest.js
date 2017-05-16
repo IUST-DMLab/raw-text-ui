@@ -87,6 +87,7 @@ app.service('RestService', ['$http', function ($http) {
         if (OUC.isEmpty(data.approved)) data.approved = false;
         var params = {
             rule: data.rule,
+            predicate: data.predicate,
             approved: data.approved
         };
         if (!OUC.isEmpty(data.id)) params.id = data.id;

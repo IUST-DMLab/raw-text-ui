@@ -72,6 +72,8 @@ app.controller('MainController', function ($scope, $http, RestService,
         if (!OUC.isEmpty($scope.rulesOptions.selected))
             RestService.editRule($scope.rulesOptions.selected)
                 .then(function (response) {
+                    if ($scope.rulesOptions.selected.id === null)
+                        $scope.getRules();
                     $scope.rulesOptions.selected.id = response.data.id;
                 });
     };
@@ -91,13 +93,16 @@ app.controller('MainController', function ($scope, $http, RestService,
             "text": $scope.rulesOptions.text
         };
         for (var i = 0; i < $scope.rules.length; i++)
-            if ($scope.rules[i].approved) data.rules.push($scope.rules[i].rule);
+            if ($scope.rules[i].approved) data.rules.push({
+                rule: $scope.rules[i].rule,
+                predicate: $scope.rules[i].predicate
+            });
         RestService.ruleTest(data)
             .then(function (response) {
                 $scope.resultRules = JSON.stringify(response.data, null, 2);
             });
     };
 
-    $scope.switch('triples');
-    // $scope.switch('rules');
+    // $scope.switch('triples');
+    $scope.switch('rules');
 });
