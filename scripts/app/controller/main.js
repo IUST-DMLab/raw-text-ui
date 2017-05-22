@@ -22,7 +22,7 @@ app.controller('MainController', function ($scope, $http, RestService,
         $scope.page = page;
         $timeout(function () {
             RestService.getTriples(page, 20, $scope.params.predicate,
-                $scope.params.minOccurrence, $scope.params.approved)
+                $scope.params.minOccurrence, $scope.params.approved, $scope.params.assignee)
                 .then(function (response) {
                     $scope.data = response.data;
                     for (var i = 0; i < $scope.data.content.length; i++)
@@ -35,9 +35,27 @@ app.controller('MainController', function ($scope, $http, RestService,
         }, 200);
     };
 
+    $scope.getUsers = function () {
+        RestService.listUsers()
+            .then(function (response) {
+                $scope.users = response.data;
+                console.log($scope.data)
+            });
+    };
+
+    $scope.assign = function (assignee, predicate, count) {
+        RestService.assign(assignee, predicate, count)
+            .then(function (response) {
+                $scope.go(0);
+            });
+    };
+
     $scope.switch = function (tab) {
         $scope.tab = tab;
-        if (tab === 'triples') $scope.go(0);
+        if (tab === 'triples') {
+            $scope.getUsers();
+            $scope.go(0);
+        }
         else $scope.getRules();
     };
 
@@ -103,6 +121,6 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    // $scope.switch('triples');
-    $scope.switch('rules');
+    $scope.switch('triples');
+    // $scope.switch('rules');
 });

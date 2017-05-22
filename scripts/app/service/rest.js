@@ -53,7 +53,7 @@ app.service('RestService', ['$http', function ($http) {
         //return $http.post(url, data, headers).then(onsuccess, onerror);
     }
 
-    this.getTriples = function (page, pageSize, predicate, minOccurrence, approved) {
+    this.getTriples = function (page, pageSize, predicate, minOccurrence, approved, assignee) {
 
         var url = baseURl + '/rest/v1/raw/search';
         var params = {
@@ -64,6 +64,7 @@ app.service('RestService', ['$http', function ($http) {
         if (!OUC.isEmpty(predicate)) params.predicate = predicate;
         if (!OUC.isEmpty(minOccurrence)) params.minOccurrence = minOccurrence;
         if (!OUC.isEmpty(approved)) params.approved = approved;
+        if (!OUC.isEmpty(assignee)) params.assigneeUsername = assignee;
 
         return get(url, params);
     };
@@ -105,6 +106,21 @@ app.service('RestService', ['$http', function ($http) {
     this.ruleTest = function (data) {
         var url = baseURl + '/rest/v1/raw/ruleTest';
         return post(url, data);
+    };
+
+    this.listUsers = function () {
+        var url = baseURl + '/rest/v1/raw/listUsers';
+        return get(url, {});
+    };
+
+    this.assign = function (assignee, predicate, count) {
+        var url = baseURl + '/rest/v1/raw/assign';
+        var params = {
+            username: assignee,
+            count: count
+        };
+        if (!OUC.isEmpty(predicate)) params.predicate = predicate;
+        return get(url, params);
     };
 }]);
 
