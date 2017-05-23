@@ -44,10 +44,14 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    $scope.assign = function (assignee, predicate, count) {
+    $scope.assign = function (switchSearch, assignee, predicate, count) {
         RestService.assign(assignee, predicate, count)
             .then(function (response) {
-                $scope.go(0);
+                if (switchSearch) {
+                    $scope.params.predicate = predicate;
+                    $scope.params.assignee = assignee;
+                    $scope.go(1);
+                }
             });
     };
 
