@@ -46,6 +46,8 @@
             </div>
 
             <div ng-if="data.totalPages>0" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                تعداد کارت‌های تأیید شده: {{numberOfApproved}}
+                /
                 تعداد صفحات: {{data.totalPages}}
                 <md-button class="md-primary" aria-label="قبلی" ng-disabled="data.pageNo==1"
                            ng-click="go(data.pageNo - 1)">قبلی

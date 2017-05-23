@@ -24,7 +24,8 @@ app.controller('MainController', function ($scope, $http, RestService,
             RestService.getTriples(page - 1, 20, $scope.params.predicate,
                 $scope.params.minOccurrence, $scope.params.approved, $scope.params.assignee)
                 .then(function (response) {
-                    $scope.data = response.data;
+                    $scope.data = response.data.page;
+                    $scope.numberOfApproved = response.data.numberOfApproved;
                     $scope.data.pageNo = $scope.data.number + 1;
                     for (var i = 0; i < $scope.data.content.length; i++)
                         $scope.data.content[i].toShow =
