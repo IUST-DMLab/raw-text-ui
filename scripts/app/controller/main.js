@@ -26,6 +26,7 @@ app.controller('MainController', function ($scope, $http, RestService,
                 .then(function (response) {
                     $scope.data = response.data.page;
                     $scope.numberOfApproved = response.data.numberOfApproved;
+                    $scope.numberOfRejected = response.data.numberOfRejected;
                     $scope.data.pageNo = $scope.data.number + 1;
                     for (var i = 0; i < $scope.data.content.length; i++)
                         $scope.data.content[i].toShow =
