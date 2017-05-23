@@ -2,7 +2,7 @@
     <md-tabs md-dynamic-height md-border-bottom>
         <md-tab label="جستجو">
             <div layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-input-container>
+                <md-input-container flex="20">
                     <label>کاربر</label>
                     <md-select ng-model="params.assignee">
                         <md-option ng-value="null">همه</md-option>
@@ -25,9 +25,14 @@
                     <label>حداقل تعداد تکرار</label>
                     <input ng-model="params.minOccurrence" type="number" step="1">
                 </md-input-container>
-                <md-button class="md-primary" aria-label="تخصیص" ng-disabled="!params.assignee"
+                <md-button class="md-primary" aria-label="تخصیص"
                            ng-click="go(1)">جستجو
                 </md-button>
+            </div>
+            <div ng-if="data.totalPages==0" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                هیچ کارتی وجود ندارد!
+            </div>
+            <div ng-if="data.totalPages>0" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 تعداد صفحات: {{data.totalPages}}
                 <md-button class="md-primary" aria-label="قبلی" ng-disabled="data.pageNo==1"
                            ng-click="go(data.pageNo - 1)">قبلی
@@ -66,6 +71,10 @@
         <md-tab label="تخصیص">
             <md-content class="md-padding">
                 <div layout="column" layout-align="center center" layout-wrap>
+                    <div>
+                        برای اینکه دو نفر هزمان روی یک کارت کار نکنند، قبل از اعمال تغییرات روی کارت‌ها، تعدادی از آن‌ها
+                        را به خود تخصیص دهید.
+                    </div>
                     <md-input-container>
                         <label>تخصیص به کاربر</label>
                         <md-select ng-model="params.assignAssignee">

@@ -67,7 +67,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.vote = function (x, approved) {
         RestService.approve(x.id, approved)
             .then(function (response) {
-                $scope.go($scope.page)
+                $scope.go($scope.page + 1)
             });
     };
 
