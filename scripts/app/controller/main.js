@@ -1,7 +1,6 @@
 app.controller('MainController', function ($scope, $http, RestService,
                                            $cookieStore, $mdSidenav, $timeout,
-                                           $filter, $mdDialog, $mdColorPalette) {
-    console.log(Object.keys($mdColorPalette))
+                                           $filter, $mdDialog, $mdToast, $mdColorPalette) {
     $scope.colors = {
         null: 'indigo',
         true: 'green',
@@ -11,7 +10,8 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.params = {
         predicate: null,
         minOccurrence: null,
-        approved: null
+        approved: null,
+        selectedTab: 0
     };
 
     $scope.toggle = function () {
@@ -47,11 +47,26 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.assign = function (switchSearch, assignee, predicate, count) {
         RestService.assign(assignee, predicate, count)
             .then(function (response) {
-                if (switchSearch) {
-                    $scope.params.predicate = predicate;
-                    $scope.params.assignee = assignee;
-                    $scope.go(1);
+                var message = "";
+                if (response.data > 0) {
+                    $scope.go($scope.page + 1);
+                    message = "تعداد " + response.data + " کارت جدید به کاربر اختصاص پیدا کرد.";
+
+                    if (switchSearch) {
+                        $scope.params.st = 0;
+                        $scope.params.predicate = predicate;
+                        $scope.params.assignee = assignee;
+                        $scope.go(1);
+                    }
+                } else {
+                    message = "هیچ کارتی به کاربر اختصاص پیدا نکرد.";
                 }
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent(message)
+                        .position("top")
+                        .hideDelay(3000)
+                );
             });
     };
 
@@ -67,7 +82,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.vote = function (x, approved) {
         RestService.approve(x.id, approved)
             .then(function (response) {
-                $scope.go($scope.page + 1)
+                $scope.go($scope.page + 1);
             });
     };
 
