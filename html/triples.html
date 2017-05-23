@@ -1,4 +1,16 @@
 <md-content flex layout-padding>
+    <style>
+        md-card-content {
+            max-height: 300px;
+            overflow: hidden;
+        }
+
+        .subject, .object, .predicate {
+            background-color: rgba(120, 120, 120, 0.4);
+            /*background-color: rgba(238, 231, 12, 0.5);*/
+            /*color: yellow;*/
+        }
+    </style>
     <md-tabs md-dynamic-height md-border-bottom md-selected="params.st">
         <md-tab label="جستجو">
             <div layout="row" layout-sm="column" layout-align="center center" layout-wrap>
@@ -51,14 +63,24 @@
             <div layout="row" layout-wrap>
                 <div flex="25" ng-repeat="x in data.content">
                     <md-card md-colors="{background: '{{colors[x.approved]}}'}">
+                        <md-card-title>
+                            <md-card-title-text>
+                                <span class="md-headline">
+                            {{x.predicate}} - {{x.occurrence}}
+                                </span>
+                                <!--<span class="md-subhead">-->
+                                <!--{{x.occurrence}} بار تکرار-->
+                                <!--</span>-->
+                            </md-card-title-text>
+                        </md-card-title>
                         <md-card-content>
                             <!--<div dir="ltr">subject: {{x.subject}}</div>-->
                             <div>
-                                گزاره:
-                                <b>{{x.predicate}}</b> - {{x.occurrence}}
+
                             </div>
                             <!--<div dir="ltr">object: {{x.object}}</div>-->
                             <span ng-bind-html="x.toShow"></span>
+                            <!--<span> {{x.occurrence}} بار تکرار</span>-->
                         </md-card-content>
                         <md-card-actions layout="row" layout-align="end center">
                             <md-button ng-click="vote(x, true)">تأیید</md-button>

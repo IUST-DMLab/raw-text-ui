@@ -29,8 +29,8 @@ app.controller('MainController', function ($scope, $http, RestService,
                     for (var i = 0; i < $scope.data.content.length; i++)
                         $scope.data.content[i].toShow =
                             $scope.data.content[i].generalizedSentence
-                                .replace('$SUBJ', '<b>' + $scope.data.content[i].subject + ' (SUBJ)</b>')
-                                .replace('$OBJ', '<b>' + $scope.data.content[i].object + ' (OBJ)</b>');
+                                .replace('$SUBJ', '<span class="subject">' + $scope.data.content[i].subject + ' :S</span>')
+                                .replace('$OBJ', '<span class="object">' + $scope.data.content[i].object + ' :O</span>');
                     console.log($scope.data)
                 });
         }, 200);
