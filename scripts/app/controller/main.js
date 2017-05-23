@@ -10,7 +10,7 @@ app.controller('MainController', function ($scope, $http, RestService,
 
     $scope.params = {
         predicate: null,
-        minOccurrence: 1,
+        minOccurrence: null,
         approved: null
     };
 
@@ -19,12 +19,13 @@ app.controller('MainController', function ($scope, $http, RestService,
     };
 
     $scope.go = function (page) {
-        $scope.page = page;
+        $scope.page = page - 1;
         $timeout(function () {
-            RestService.getTriples(page, 20, $scope.params.predicate,
+            RestService.getTriples(page - 1, 20, $scope.params.predicate,
                 $scope.params.minOccurrence, $scope.params.approved, $scope.params.assignee)
                 .then(function (response) {
                     $scope.data = response.data;
+                    $scope.data.pageNo = $scope.data.number + 1;
                     for (var i = 0; i < $scope.data.content.length; i++)
                         $scope.data.content[i].toShow =
                             $scope.data.content[i].generalizedSentence
@@ -54,7 +55,7 @@ app.controller('MainController', function ($scope, $http, RestService,
         $scope.tab = tab;
         if (tab === 'triples') {
             $scope.getUsers();
-            $scope.go(0);
+            $scope.go(1);
         }
         else $scope.getRules();
     };
