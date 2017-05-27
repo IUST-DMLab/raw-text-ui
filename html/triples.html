@@ -59,8 +59,8 @@
                 </md-button>
             </div>
 
-            <div layout="row" layout-wrap>
-                <div flex="25" ng-repeat="x in data.content">
+            <md-grid-list md-cols="4" md-row-height="350px">
+                <md-grid-tile ng-repeat="x in data.content">
                     <md-card md-colors="{background: '{{colors[x.approved]}}'}">
                         <md-card-title>
                             <md-card-title-text>
@@ -87,8 +87,8 @@
                             <md-button ng-click="vote(x, null)">نمیدانم</md-button>
                         </md-card-actions>
                     </md-card>
-                </div>
-            </div>
+                </md-grid-tile>
+            </md-grid-list>
 
             <div ng-if="data.totalPages>0" layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 تعداد صفحات: {{data.totalPages}}
