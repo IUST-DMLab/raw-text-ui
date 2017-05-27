@@ -21,7 +21,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.go = function (page) {
         $scope.page = page - 1;
         $timeout(function () {
-            RestService.getTriples(page - 1, 20, $scope.params.predicate,
+            RestService.getTriples(page - 1, 20, $scope.params.predicate, !$scope.params.exact,
                 $scope.params.minOccurrence, $scope.params.approved, $scope.params.assignee)
                 .then(function (response) {
                     $scope.data = response.data.page;
@@ -58,6 +58,7 @@ app.controller('MainController', function ($scope, $http, RestService,
                         $scope.params.st = 0;
                         $scope.params.predicate = predicate;
                         $scope.params.assignee = assignee;
+                        $scope.params.exact = true;
                         $scope.go(1);
                     }
                 } else {

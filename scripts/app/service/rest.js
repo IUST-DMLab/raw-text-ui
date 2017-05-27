@@ -53,7 +53,7 @@ app.service('RestService', ['$http', function ($http) {
         //return $http.post(url, data, headers).then(onsuccess, onerror);
     }
 
-    this.getTriples = function (page, pageSize, predicate, minOccurrence, approved, assignee) {
+    this.getTriples = function (page, pageSize, predicate, like, minOccurrence, approved, assignee) {
 
         var url = baseURl + '/rest/v1/raw/search';
         var params = {
@@ -62,6 +62,7 @@ app.service('RestService', ['$http', function ($http) {
         };
 
         if (!OUC.isEmpty(predicate)) params.predicate = predicate;
+        if (!OUC.isEmpty(like)) params.like = like;
         if (!OUC.isEmpty(minOccurrence)) params.minOccurrence = minOccurrence;
         if (!OUC.isEmpty(approved)) params.approved = approved;
         if (!OUC.isEmpty(assignee)) params.assigneeUsername = assignee;
