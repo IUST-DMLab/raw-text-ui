@@ -189,12 +189,12 @@
                                     </md-button>
                                 </td>
                                 <td>{{x.count}}</td>
-                                <td dir="ltr">
-                                <span ng-repeat="y in x.assignees" style="padding-left: 5px">
-                                    <span ng-if="y.username">{{y.username}}</span>
-                                    <span ng-if="!y.username">تخصیص نیافته</span>
-                                    <span>({{y.count}})</span>
-                                </span>
+                                <td dir="ltr" style="padding: 5px">
+                                    <div ng-repeat="y in x.assignees" style="padding-left: 5px">
+                                        <span ng-if="y.username">{{y.username}}</span>
+                                        <span ng-if="!y.username">unassigned</span>
+                                        <span>({{y.count}})</span>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
