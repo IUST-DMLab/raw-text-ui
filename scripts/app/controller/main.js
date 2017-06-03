@@ -14,12 +14,21 @@ app.controller('MainController', function ($scope, $http, RestService,
         selectedTab: 0
     };
 
+    $scope.cardSearch = {
+        page: 1
+    };
+
+    $scope.predicateSearch = {
+        page: 1,
+        predicate: null
+    };
+
     $scope.toggle = function () {
         $mdSidenav('sidebar').toggle();
     };
 
     $scope.go = function (page) {
-        $scope.page = page - 1;
+        $scope.cardSearch.page = page - 1;
         $timeout(function () {
             RestService.getTriples(page - 1, 20, $scope.params.predicate, !$scope.params.exact,
                 $scope.params.minOccurrence, $scope.params.approved, $scope.params.assignee)
@@ -38,6 +47,18 @@ app.controller('MainController', function ($scope, $http, RestService,
         }, 200);
     };
 
+    $scope.goPredicates = function (page) {
+        $scope.predicateSearch.page = page - 1;
+        $timeout(function () {
+            RestService.goPredicates(page - 1, 20, $scope.predicateSearch.predicate)
+                .then(function (response) {
+                    $scope.predicates = response.data;
+                    $scope.predicates.pageNo = $scope.predicates.number + 1;
+                    console.log(response.data)
+                });
+        }, 200);
+    };
+
     $scope.getUsers = function () {
         RestService.listUsers()
             .then(function (response) {
@@ -51,7 +72,7 @@ app.controller('MainController', function ($scope, $http, RestService,
             .then(function (response) {
                 var message = "";
                 if (response.data > 0) {
-                    $scope.go($scope.page + 1);
+                    $scope.go($scope.cardSearch.page + 1);
                     message = "تعداد " + response.data + " کارت جدید به کاربر اختصاص پیدا کرد.";
 
                     if (switchSearch) {
@@ -85,7 +106,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.vote = function (x, approved) {
         RestService.approve(x.id, approved)
             .then(function (response) {
-                $scope.go($scope.page + 1);
+                $scope.go($scope.cardSearch.page + 1);
             });
     };
 

@@ -70,6 +70,19 @@ app.service('RestService', ['$http', function ($http) {
         return get(url, params);
     };
 
+    this.goPredicates = function (page, pageSize, predicate) {
+
+        var url = baseURl + '/rest/v1/raw/predicates';
+        var params = {
+            page: page,
+            pageSize: pageSize
+        };
+
+        if (!OUC.isEmpty(predicate)) params.predicate = predicate;
+
+        return get(url, params);
+    };
+
     this.approve = function (id, approved) {
         var url = baseURl + '/rest/v1/raw/approve';
         var params = {
