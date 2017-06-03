@@ -50,7 +50,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.goPredicates = function (page) {
         $scope.predicateSearch.page = page - 1;
         $timeout(function () {
-            RestService.goPredicates(page - 1, 20, $scope.predicateSearch.predicate)
+            RestService.goPredicates(page - 1, 100, $scope.predicateSearch.predicate)
                 .then(function (response) {
                     $scope.predicates = response.data;
                     $scope.predicates.pageNo = $scope.predicates.number + 1;
