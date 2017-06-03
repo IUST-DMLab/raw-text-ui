@@ -49,14 +49,18 @@ app.controller('MainController', function ($scope, $http, RestService,
 
     $scope.goPredicates = function (page) {
         $scope.predicateSearch.page = page - 1;
-        $timeout(function () {
-            RestService.goPredicates(page - 1, 10, $scope.predicateSearch.predicate)
-                .then(function (response) {
-                    $scope.predicates = response.data;
-                    $scope.predicates.pageNo = $scope.predicates.number + 1;
-                    console.log(response.data)
-                });
-        }, 200);
+        RestService.goPredicates(page - 1, 50, $scope.predicateSearch.predicate)
+            .then(function (response) {
+                $scope.predicates = response.data;
+                $scope.predicates.pageNo = $scope.predicates.number + 1;
+            });
+    };
+
+    $scope.assigneeCount = function (index) {
+        RestService.assigneeCount($scope.predicates.content[index].predicate)
+            .then(function (response) {
+                $scope.predicates.content[index].assignees = response.data;
+            });
     };
 
     $scope.getUsers = function () {

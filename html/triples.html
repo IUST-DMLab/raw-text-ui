@@ -189,12 +189,18 @@
                                     </md-button>
                                 </td>
                                 <td>{{x.count}}</td>
-                                <td dir="ltr" style="padding: 5px">
+                                <td ng-if="x.assignees" dir="ltr" style="padding: 5px">
                                     <div ng-repeat="y in x.assignees" style="padding-left: 5px">
                                         <span ng-if="y.username">{{y.username}}</span>
                                         <span ng-if="!y.username">unassigned</span>
                                         <span>({{y.count}})</span>
                                     </div>
+                                </td>
+                                <td ng-if="!x.assignees" style="padding: 5px">
+                                    <md-button class="md-primary"
+                                               ng-click="assigneeCount($index)">
+                                        محاسبه
+                                    </md-button>
                                 </td>
                             </tr>
                         </table>

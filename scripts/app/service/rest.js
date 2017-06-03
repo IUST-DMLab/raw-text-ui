@@ -83,6 +83,14 @@ app.service('RestService', ['$http', function ($http) {
         return get(url, params);
     };
 
+    this.assigneeCount = function (predicate) {
+        var url = baseURl + '/rest/v1/raw/assigneeCount';
+        var params = {
+            predicate: predicate
+        };
+        return get(url, params);
+    };
+
     this.approve = function (id, approved) {
         var url = baseURl + '/rest/v1/raw/approve';
         var params = {
