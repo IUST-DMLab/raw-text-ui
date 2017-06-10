@@ -144,6 +144,23 @@ app.service('RestService', ['$http', function ($http) {
         if (!OUC.isEmpty(predicate)) params.predicate = predicate;
         return get(url, params);
     };
+
+    this.goPatterns = function (page, pageSize) {
+        var url = baseURl + '/rest/v1/raw/searchPattern';
+        var params = {
+            page: page,
+            pageSize: pageSize
+        };
+        return get(url, params);
+    };
+
+    this.dependencyParse = function (text) {
+        var url = baseURl + '/rest/v1/raw/dependencyParseGet';
+        var params = {
+            text: text
+        };
+        return get(url, params);
+    }
 }]);
 
 var loading = {

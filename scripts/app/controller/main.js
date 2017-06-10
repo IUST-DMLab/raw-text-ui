@@ -23,6 +23,10 @@ app.controller('MainController', function ($scope, $http, RestService,
         predicate: null
     };
 
+    $scope.patternSearch = {
+        page: 1
+    };
+
     $scope.toggle = function () {
         $mdSidenav('sidebar').toggle();
     };
@@ -104,7 +108,8 @@ app.controller('MainController', function ($scope, $http, RestService,
             $scope.getUsers();
             $scope.go(1);
         }
-        else $scope.getRules();
+        else if (tab === 'triples') $scope.getRules();
+        else $scope.goPatterns(1)
     };
 
     $scope.vote = function (x, approved) {
@@ -169,6 +174,66 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    $scope.switch('triples');
+    $scope.goPatterns = function (page, callback) {
+        $scope.patternSearch.page = page - 1;
+        RestService.goPatterns(page - 1, 20)
+            .then(function (response) {
+                $scope.patterns = response.data;
+                $scope.patterns.pageNo = $scope.patterns.number + 1;
+                if (callback !== undefined) callback();
+            });
+    };
+
+    $scope.editPattern = function (index, data) {
+        $scope.currentPattern = {
+            index: index,
+            data: data
+        };
+        $scope.params.st = 1;
+        RestService.dependencyParse(data.samples[0])
+            .then(function (response) {
+                $scope.currentPattern.dependencyTree = response.data;
+                var conll = "";
+                var s = "";
+                var sentence = response.data;
+                for (var j = 0; j < sentence.length; j++) {
+                    var word = sentence[j];
+                    var pos = tagDict[word.pos];
+                    if (pos === undefined) pos = word.pos;
+                    conll += (word.position + "\t" + word.word + "\t" + word.lemma + "\t" + word.cPOS
+                    + "\t" + word.pos + "\t" + word.features + "\t" + (word.head == -1 ? '0' : word.head)
+                    + "\t" + word.relation + "\t-\t-\n");
+                    s += (word.word + " ");
+                }
+                $scope.currentPattern.dependencyTreeConll = conll;
+                var svg = document.getElementById('sample-dep-tree');
+                window.drawTree(svg, conll);
+            });
+    };
+
+    $scope.nextPattern = function () {
+        if ($scope.currentPattern.index === 19) {
+            if ($scope.patterns.pageNo < $scope.patterns.totalPages) {
+                $scope.goPatterns($scope.patterns.pageNo + 1, function () {
+                    $scope.editPattern(0, $scope.patterns.content[0]);
+                });
+            }
+        } else $scope.editPattern($scope.currentPattern.index + 1,
+            $scope.patterns.content[$scope.currentPattern.index + 1]);
+    };
+
+    $scope.previousPattern = function () {
+        if ($scope.currentPattern.index === 0) {
+            if ($scope.patterns.pageNo > 1) {
+                $scope.goPatterns($scope.patterns.pageNo - 1, function () {
+                    $scope.editPattern(19, $scope.patterns.content[19]);
+                });
+            }
+        } else $scope.editPattern($scope.currentPattern.index - 1,
+            $scope.patterns.content[$scope.currentPattern.index - 1]);
+    };
+
+    $scope.switch('patterns');
+    // $scope.switch('triples');
     // $scope.switch('rules');
 });

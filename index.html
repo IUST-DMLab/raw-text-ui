@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
 
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="styles/tree.css">
 
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
 
@@ -20,6 +21,8 @@
     <script type="text/javascript" src="node_modules/angular-messages/angular-messages.min.js"></script>
     <script type="text/javascript" src="node_modules/angular-cookies/angular-cookies.min.js"></script>
     <script type="text/javascript" src="node_modules/angular-material-icons/angular-material-icons.min.js"></script>
+    <script type="text/javascript" src="node_modules/d3/build/d3.min.js"></script>
+    <script type="text/javascript" src="scripts/lib/dependency.js"></script>
     <script type="text/javascript"
             src="node_modules/md-collection-pagination/dist/md-collection-pagination.min.js"></script>
 
@@ -65,6 +68,7 @@
             <div layout="column" layout-align="top center">
                 <div ng-if="tab=='triples'" layout-fill ng-include data-src="'html/triples.html'"></div>
                 <div ng-if="tab=='rules'" layout-fill ng-include data-src="'html/rules.html'"></div>
+                <div ng-if="tab=='patterns'" layout-fill ng-include data-src="'html/patterns.html'"></div>
             </div>
             <div flex></div>
         </md-content>
