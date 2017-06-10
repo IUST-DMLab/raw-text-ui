@@ -44,6 +44,31 @@
                 <div layout="column" flex="80" layout-wrap>
                     <!--<div dir="ltr">{{currentPattern.data.pattern}}</div>-->
                     <svg ng-show="currentPattern.dependencyTreeConll" id="sample-dep-tree"></svg>
+                    <div layout="row">
+                        <div style="min-width: 70px; width: 70px; max-width: 60px"></div>
+                        <div style="min-width: 70px; width: 70px; max-width: 60px" layout="column"
+                             ng-repeat="y in currentPattern.dependencyTree">
+                            <div style="text-align: center">
+                                <span style="color: red" ng-if="currentPattern.sbj[$index]">{{y.word}}</span>
+                                <span style="color: green" ng-if="currentPattern.prd[$index]">{{y.word}}</span>
+                                <span style="color: blue" ng-if="currentPattern.obj[$index]">{{y.word}}</span>
+                                <span ng-if="!currentPattern.sbj[$index]&&!currentPattern.prd[$index]&&!currentPattern.obj[$index]">{{y.word}}</span>
+                            </div>
+                            <md-switch ng-model="currentPattern.sbj[$index]" aria-label="Subject">S</md-switch>
+                            <md-switch ng-model="currentPattern.prd[$index]" aria-label="Subject">P</md-switch>
+                            <md-switch ng-model="currentPattern.obj[$index]" aria-label="Subject">O</md-switch>
+                        </div>
+                    </div>
+                    <pre dir="ltr">
+                                {
+                                    subject: '<span ng-repeat="y in currentPattern.dependencyTree"
+                                                    ng-if="currentPattern.sbj[$index]">{{y.word}} </span>',
+                                    predicate: '<span ng-repeat="y in currentPattern.dependencyTree"
+                                                      ng-if="currentPattern.prd[$index]">{{y.word}} </span>',
+                                    object: '<span ng-repeat="y in currentPattern.dependencyTree"
+                                                   ng-if="currentPattern.obj[$index]">{{y.word}} </span>',
+                                }
+                        </pre>
                     <div>
                         <b>تعداد جملات:</b>
                         {{currentPattern.data.count}}

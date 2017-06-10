@@ -233,6 +233,10 @@ app.controller('MainController', function ($scope, $http, RestService,
             $scope.patterns.content[$scope.currentPattern.index - 1]);
     };
 
+    $scope.savePattern = function () {
+
+    };
+
     $scope.switch('patterns');
     // $scope.switch('triples');
     // $scope.switch('rules');

@@ -160,7 +160,12 @@ app.service('RestService', ['$http', function ($http) {
             text: text
         };
         return get(url, params);
-    }
+    };
+
+    this.savePattern = function (data) {
+        var url = baseURl + '/rest/v1/raw/savePattern';
+        return post(url, data);
+    };
 }]);
 
 var loading = {
