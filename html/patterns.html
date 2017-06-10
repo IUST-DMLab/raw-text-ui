@@ -44,9 +44,15 @@
                 <div layout="column" flex="80" layout-wrap>
                     <!--<div dir="ltr">{{currentPattern.data.pattern}}</div>-->
                     <svg ng-show="currentPattern.dependencyTreeConll" id="sample-dep-tree"></svg>
-                    <div>تعداد جملات: {{currentPattern.data.count}}</div>
-                    <div>طول جمله: {{currentPattern.data.sentenceLength}}</div>
-                    <div>بخشی از جملات نمونه:</div>
+                    <div>
+                        <b>تعداد جملات:</b>
+                        {{currentPattern.data.count}}
+                    </div>
+                    <div>
+                        <b>طول جمله:</b>
+                        {{currentPattern.data.sentenceLength}}
+                    </div>
+                    <div><b>بخشی از جملات نمونه:</b></div>
                     <div ng-repeat="s in currentPattern.data.samples">
                         {{s}}
                     </div>
