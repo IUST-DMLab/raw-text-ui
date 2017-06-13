@@ -43,8 +43,11 @@
                 </tr>
             </table>
         </md-tab>
-        <md-tab label="ویرایش" ng-show="currentPattern">
-            <md-content class="md-padding">
+        <md-tab label="ویرایش">
+            <md-content class="md-padding" ng-if="!currentPattern">
+                هنوز الگویی انتخاب نشده است.
+            </md-content>
+            <md-content class="md-padding" ng-if="currentPattern">
                 <div ng-if="patterns.totalPages>0" layout="row" layout-sm="column" layout-align="center center"
                      layout-wrap>
                     <md-button class="md-primary" aria-label="قبلی" ng-click="previousPattern()">قبلی</md-button>
