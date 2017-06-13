@@ -277,7 +277,7 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    $scope.switch('patterns');
-    // $scope.switch('triples');
+    // $scope.switch('patterns');
+    $scope.switch('triples');
     // $scope.switch('rules');
 });
