@@ -1,6 +1,6 @@
 app.service('RestService', ['$http', function ($http) {
-    // var baseURl = 'http://dmls.iust.ac.ir:8100';
-    var baseURl = 'http://localhost:8100';
+    var baseURl = 'http://dmls.iust.ac.ir:8100';
+    // var baseURl = 'http://localhost:8100';
 
     var self = this;
     this.ingoing = 0;
