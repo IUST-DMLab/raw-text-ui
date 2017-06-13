@@ -295,6 +295,7 @@ app.controller('MainController', function ($scope, $http, RestService,
                 object: [],
                 accuracy: 0.0
             });
+            $scope.params.relationIndex = $scope.currentPattern.data.relations.length - 1;
             toast('یک رابطه به الگو اضافه شد.');
         }
     };
@@ -303,7 +304,7 @@ app.controller('MainController', function ($scope, $http, RestService,
         if ($scope.currentPattern
             && $scope.currentPattern.data.relations.length > $scope.params.relationIndex) {
             $scope.currentPattern.data.relations.splice($scope.params.relationIndex, 1);
-            $scope.params.relationIndex = 0;
+            // $scope.params.relationIndex = 0;
             $scope.rebuildTuples();
             toast('رابطه از الگو حذف شد.');
         }
@@ -312,7 +313,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     $scope.removeAllRelations = function () {
         if ($scope.currentPattern && $scope.currentPattern.data.relations.length > 0) {
             $scope.currentPattern.data.relations = [];
-            $scope.params.relationIndex = 0;
+            // $scope.params.relationIndex = 0;
             $scope.rebuildTuples();
             toast('همه روابط از الگو حذف شد.');
         }
