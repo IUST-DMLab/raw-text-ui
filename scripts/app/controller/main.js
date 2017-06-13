@@ -1,6 +1,6 @@
 app.controller('MainController', function ($scope, $http, RestService,
                                            $cookieStore, $mdSidenav, $timeout,
-                                           $filter, $mdDialog, $mdToast, $mdColorPalette) {
+                                           $filter, $mdDialog, $mdToast, $localStorage) {
     $scope.colors = {
         null: 'indigo',
         true: 'green',
@@ -99,6 +99,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     };
 
     $scope.switch = function (tab) {
+        $scope.storage.selectedTab = tab;
         $scope.tab = tab;
         if (tab === 'triples') {
             $scope.getUsers();
@@ -201,6 +202,20 @@ app.controller('MainController', function ($scope, $http, RestService,
                 }
                 $scope.currentPattern.dependencyTreeConll = conll;
                 var svg = document.getElementById('sample-dep-tree');
+                angular.forEach($scope.currentPattern.data.relations, function (relation) {
+                    relation.ssw = {};
+                    angular.forEach(relation.subject, function (i) {
+                        relation.ssw[i] = true;
+                    });
+                    relation.psw = {};
+                    angular.forEach(relation.predicate, function (i) {
+                        relation.psw[i] = true;
+                    });
+                    relation.osw = {};
+                    angular.forEach(relation.object, function (i) {
+                        relation.osw[i] = true;
+                    });
+                });
                 $scope.rebuildTuples();
                 window.drawTree(svg, conll);
             });
@@ -228,16 +243,30 @@ app.controller('MainController', function ($scope, $http, RestService,
             $scope.patterns.content[$scope.currentPattern.index - 1]);
     };
 
+    $scope.switchSubject = function (relation) {
+        relation.subject = [];
+        for (var key in relation.ssw) if (relation.ssw[key]) relation.subject.push(parseInt(key));
+        $scope.rebuildTuples();
+    };
+
     $scope.switchPredicate = function (relation) {
         relation.predicate = [];
         for (var key in relation.psw) if (relation.psw[key]) relation.predicate.push(parseInt(key));
         $scope.rebuildTuples();
     };
 
+    $scope.switchObject = function (relation) {
+        relation.object = [];
+        for (var key in relation.osw) if (relation.osw[key]) relation.object.push(parseInt(key));
+        $scope.rebuildTuples();
+    };
+
     $scope.rebuildTuples = function () {
         $scope.currentPattern.tuples = [];
         angular.forEach($scope.currentPattern.data.relations, function (relation) {
-            if (relation.predicate && relation.predicate.length > 0) {
+            if (relation.subject && relation.subject.length > 0 &&
+                relation.predicate && relation.predicate.length > 0 &&
+                relation.object && relation.object.length > 0) {
                 var tuple = {
                     subject: '',
                     predicate: '',
@@ -258,10 +287,41 @@ app.controller('MainController', function ($scope, $http, RestService,
         });
     };
 
+    $scope.addRelation = function () {
+        if ($scope.currentPattern) {
+            $scope.currentPattern.data.relations.push({
+                subject: [],
+                predicate: [],
+                object: [],
+                accuracy: 0.0
+            });
+            toast('یک رابطه به الگو اضافه شد.');
+        }
+    };
+
+    $scope.removeRelation = function () {
+        if ($scope.currentPattern
+            && $scope.currentPattern.data.relations.length > $scope.params.relationIndex) {
+            $scope.currentPattern.data.relations.splice($scope.params.relationIndex, 1);
+            $scope.params.relationIndex = 0;
+            $scope.rebuildTuples();
+            toast('رابطه از الگو حذف شد.');
+        }
+    };
+
+    $scope.removeAllRelations = function () {
+        if ($scope.currentPattern && $scope.currentPattern.data.relations.length > 0) {
+            $scope.currentPattern.data.relations = [];
+            $scope.params.relationIndex = 0;
+            $scope.rebuildTuples();
+            toast('همه روابط از الگو حذف شد.');
+        }
+    };
+
     $scope.savePattern = function () {
         RestService.savePattern($scope.currentPattern.data)
             .then(function (response) {
-                $scope.currentPattern.data = response.data;
+                if (response.data) toast('الگو ذخیره شد.');
                 console.log(response);
             });
     };
@@ -273,7 +333,18 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
+    var toast = function (message) {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent(message)
+                .position("top")
+                .hideDelay(3000)
+        );
+    };
+
+    $scope.storage = $localStorage.$default({selectedTab: 'triples'});
+
     // $scope.switch('patterns');
-    $scope.switch('triples');
+    $scope.switch($scope.storage.selectedTab);
     // $scope.switch('rules');
 });

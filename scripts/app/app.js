@@ -1,5 +1,5 @@
 var app = angular.module('rawTextApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngAria',
-    'ngMessages', 'ngCookies', 'ngMdIcons', 'ngSanitize']);
+    'ngMessages', 'ngCookies', 'ngMdIcons', 'ngSanitize', 'ngStorage']);
 
 function getParameterByName(name, url) {
     if (!url) {
