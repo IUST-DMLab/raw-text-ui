@@ -55,7 +55,6 @@
                 <div layout="column" flex="80" layout-wrap>
                     <md-tabs md-dynamic-height md-border-bottom>
                         <md-tab ng-repeat="relation in currentPattern.data.relations" label="رابطه {{$index + 1}}">
-                            {{relation}}
                             <div layout="row">
                                 <div ng-repeat="y in currentPattern.dependencyTree" layout="column"
                                      style="text-align: center; padding: 2px;">
