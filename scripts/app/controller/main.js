@@ -27,10 +27,6 @@ app.controller('MainController', function ($scope, $http, RestService,
         page: 1
     };
 
-    $scope.toggle = function () {
-        $mdSidenav('sidebar').toggle();
-    };
-
     $scope.go = function (page) {
         $scope.cardSearch.page = page - 1;
         $timeout(function () {
@@ -108,7 +104,7 @@ app.controller('MainController', function ($scope, $http, RestService,
             $scope.getUsers();
             $scope.go(1);
         }
-        else if (tab === 'triples') $scope.getRules();
+        else if (tab === 'rules') $scope.getRules();
         else $scope.goPatterns(1)
     };
 

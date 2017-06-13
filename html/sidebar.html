@@ -1,7 +1,11 @@
-<md-content>
-    <md-list flex>
-        <md-list-item ng-click="switch('triples')">سه تایی‌ها</md-list-item>
-        <md-list-item ng-click="switch('rules')">تست و ذخیره سازی قوانین</md-list-item>
-        <md-list-item ng-click="switch('patterns')">ذخیره‌سازی الگوهای وابستگی</md-list-item>
-    </md-list>
-</md-content>
+<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+    <md-nav-item md-nav-click="switch('triples')" name="page1">
+        سه تایی‌ها
+    </md-nav-item>
+    <md-nav-item md-nav-click="switch('rules')" name="page2">
+        تست و ذخیره سازی قوانین
+    </md-nav-item>
+    <md-nav-item md-nav-click="switch('patterns')" name="page3">
+        ذخیره‌سازی الگوهای وابستگی
+    </md-nav-item>
+</md-nav-bar>
