@@ -1,6 +1,6 @@
 app.service('RestService', ['$http', function ($http) {
-    var baseURl = 'http://dmls.iust.ac.ir:8100';
-    // var baseURl = 'http://localhost:8100';
+    // var baseURl = 'http://dmls.iust.ac.ir:8100';
+    var baseURl = 'http://localhost:8100';
 
     var self = this;
     this.ingoing = 0;
@@ -165,6 +165,11 @@ app.service('RestService', ['$http', function ($http) {
     this.savePattern = function (data) {
         var url = baseURl + '/rest/v1/raw/savePattern';
         return post(url, data);
+    };
+
+    this.predictByPattern = function (text) {
+        var url = baseURl + '/rest/v1/raw/predictByPatternPost';
+        return post(url, {text: text});
     };
 }]);
 

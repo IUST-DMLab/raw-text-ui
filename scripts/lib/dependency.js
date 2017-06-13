@@ -141,7 +141,7 @@ parseConll = function (conllData) {
             continue;
         }
         _ref1 = line.split('\t'), id = _ref1[0], word = _ref1[1], _ = _ref1[2], cpos = _ref1[3], fpos = _ref1[4], _ = _ref1[5], parent = _ref1[6], dependency = _ref1[7];
-        tag = cpos !== fpos ? tagDict[cpos] + ' ' + tagDict[fpos] : tagDict[cpos];
+        tag = cpos !== fpos ? tagLabel(cpos) + ' ' + tagLabel(fpos) : tagLabel(cpos);
         data.push({
             id: Number(id),
             word: word,
@@ -206,6 +206,8 @@ tagDict = {
     '1': 'اول',
     '2': 'دوم',
     '3': 'سوم',
+    // 'Ne' : 'اسم‌یار',
+    'P': 'حرف اضافه',
     'ACT': 'معلوم',
     'ADJ': 'صفت',
     'ADR': 'نقش نمای ندا',
@@ -275,4 +277,10 @@ tagDict = {
     'UCREFX': 'بازتابی غیرمشترک',
     'V': 'فعل',
     'ROOT': ''
+};
+
+tagLabel = function (tag) {
+    var persian = tagDict[tag];
+    if (persian) return persian;
+    return tag;
 };

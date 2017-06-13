@@ -26,49 +26,65 @@
                 </md-button>
             </div>
 
-            <div ng-repeat="x in patterns.content">
-                <md-button ng-click="editPattern($index, x)">ویرایش</md-button>
-                تعداد جملات {{x.count}} /
-                <span style="color: red">{{x.samples[0]}}</span>
-                / طول جمله: {{x.sentenceLength}}
-            </div>
+            <table>
+                <tr>
+                    <th></th>
+                    <th>تعداد جملات</th>
+                    <th>طول هر جمله</th>
+                    <th>جمله نمونه</th>
+                </tr>
+                <tr ng-repeat="x in patterns.content">
+                    <td>
+                        <md-button ng-click="editPattern($index, x)">ویرایش</md-button>
+                    </td>
+                    <td>{{x.count}}</td>
+                    <td>{{x.sentenceLength}}</td>
+                    <td>{{x.samples[0]}}</td>
+                </tr>
+            </table>
         </md-tab>
         <md-tab label="ویرایش">
             <md-content class="md-padding">
                 <div ng-if="patterns.totalPages>0" layout="row" layout-sm="column" layout-align="center center"
                      layout-wrap>
                     <md-button class="md-primary" aria-label="قبلی" ng-click="previousPattern()">قبلی</md-button>
+                    <md-button class="md-primary" aria-label="ذخیره" ng-click="savePattern()">ذخیره</md-button>
                     <md-button class="md-primary" aria-label="بعدی" ng-click="nextPattern()">بعدی</md-button>
                 </div>
                 <div flex="10"></div>
                 <div layout="column" flex="80" layout-wrap>
-                    <!--<div dir="ltr">{{currentPattern.data.pattern}}</div>-->
-                    <svg ng-show="currentPattern.dependencyTreeConll" id="sample-dep-tree"></svg>
-                    <div layout="row">
-                        <div style="min-width: 70px; width: 70px; max-width: 60px"></div>
-                        <div style="min-width: 70px; width: 70px; max-width: 60px" layout="column"
-                             ng-repeat="y in currentPattern.dependencyTree">
-                            <div style="text-align: center">
-                                <span style="color: red" ng-if="currentPattern.sbj[$index]">{{y.word}}</span>
-                                <span style="color: green" ng-if="currentPattern.prd[$index]">{{y.word}}</span>
-                                <span style="color: blue" ng-if="currentPattern.obj[$index]">{{y.word}}</span>
-                                <span ng-if="!currentPattern.sbj[$index]&&!currentPattern.prd[$index]&&!currentPattern.obj[$index]">{{y.word}}</span>
+                    <md-tabs md-dynamic-height md-border-bottom>
+                        <md-tab ng-repeat="relation in currentPattern.data.relations" label="رابطه {{$index + 1}}">
+                            {{relation}}
+                            <div layout="row">
+                                <div ng-repeat="y in currentPattern.dependencyTree" layout="column"
+                                     style="text-align: center; padding: 2px;">
+                                    <div>{{y.word}}</div>
+                                    <md-switch ng-change="switchPredicate(relation)"
+                                               ng-model="relation.psw[$index]"
+                                               aria-label="Predicate">
+                                    </md-switch>
+                                    <span style="color: red" ng-if="relation.subject.indexOf($index) > -1">
+                                            SUBJ
+                                        </span>
+                                    <span style="color: green" ng-if="relation.predicate.indexOf($index) > -1">
+                                            PRD
+                                        </span>
+                                    <span style="color: blue" ng-if="relation.object.indexOf($index) > -1">
+                                            OBJ
+                                        </span>
+                                </div>
                             </div>
-                            <md-switch ng-model="currentPattern.sbj[$index]" aria-label="Subject">S</md-switch>
-                            <md-switch ng-model="currentPattern.prd[$index]" aria-label="Subject">P</md-switch>
-                            <md-switch ng-model="currentPattern.obj[$index]" aria-label="Subject">O</md-switch>
-                        </div>
+                        </md-tab>
+                        <md-tab label="درخت وابستگی">
+                            <div style="overflow: auto">
+                                <svg ng-show="currentPattern.dependencyTreeConll" id="sample-dep-tree"></svg>
+                            </div>
+                        </md-tab>
+                    </md-tabs>
+                    <div layout="row" dir="ltr" style="overflow: auto">
+                        <pre ng-repeat="tuple in currentPattern.tuples">{{tuple | json}}</pre>
                     </div>
-                    <pre dir="ltr">
-                                {
-                                    subject: '<span ng-repeat="y in currentPattern.dependencyTree"
-                                                    ng-if="currentPattern.sbj[$index]">{{y.word}} </span>',
-                                    predicate: '<span ng-repeat="y in currentPattern.dependencyTree"
-                                                      ng-if="currentPattern.prd[$index]">{{y.word}} </span>',
-                                    object: '<span ng-repeat="y in currentPattern.dependencyTree"
-                                                   ng-if="currentPattern.obj[$index]">{{y.word}} </span>',
-                                }
-                        </pre>
                     <div>
                         <b>تعداد جملات:</b>
                         {{currentPattern.data.count}}
@@ -81,6 +97,21 @@
                     <div ng-repeat="s in currentPattern.data.samples">
                         {{s}}
                     </div>
+                </div>
+            </md-content>
+        </md-tab>
+        <md-tab label="آزمون">
+            <md-content class="md-padding" layout-align="center center" layout-wrap>
+                <md-button ng-click="predictByPattern(testText)" class="md-raised md-primary">
+                    پیش‌بینی
+                </md-button>
+                <md-input-container class="md-block">
+                    <label>متن</label>
+                    <textarea ng-model="testText" md-maxlength="5000" rows="5" md-select-on-focus></textarea>
+                </md-input-container>
+                <div layout="column" dir="ltr" style="overflow: auto">
+                    <pre ng-repeat="tuple in predicted">{{tuple | json}}</pre>
+                    <hr/>
                 </div>
             </md-content>
         </md-tab>

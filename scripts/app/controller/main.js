@@ -198,15 +198,14 @@ app.controller('MainController', function ($scope, $http, RestService,
                 var sentence = response.data;
                 for (var j = 0; j < sentence.length; j++) {
                     var word = sentence[j];
-                    var pos = tagDict[word.pos];
-                    if (pos === undefined) pos = word.pos;
-                    conll += (word.position + "\t" + word.word + "\t" + word.lemma + "\t" + word.cPOS
-                    + "\t" + word.pos + "\t" + word.features + "\t" + (word.head == -1 ? '0' : word.head)
+                    conll += (word.position + "\t" + word.word + "\t" + word.lemma + "\t" + word.pos
+                    + "\t" + word.pos + "\t" + word.features + "\t" + (word.head === -1 ? '0' : word.head)
                     + "\t" + word.relation + "\t-\t-\n");
                     s += (word.word + " ");
                 }
                 $scope.currentPattern.dependencyTreeConll = conll;
                 var svg = document.getElementById('sample-dep-tree');
+                $scope.rebuildTuples();
                 window.drawTree(svg, conll);
             });
     };
@@ -233,8 +232,49 @@ app.controller('MainController', function ($scope, $http, RestService,
             $scope.patterns.content[$scope.currentPattern.index - 1]);
     };
 
-    $scope.savePattern = function () {
+    $scope.switchPredicate = function (relation) {
+        relation.predicate = [];
+        for (var key in relation.psw) if (relation.psw[key]) relation.predicate.push(parseInt(key));
+        $scope.rebuildTuples();
+    };
 
+    $scope.rebuildTuples = function () {
+        $scope.currentPattern.tuples = [];
+        angular.forEach($scope.currentPattern.data.relations, function (relation) {
+            if (relation.predicate && relation.predicate.length > 0) {
+                var tuple = {
+                    subject: '',
+                    predicate: '',
+                    object: ''
+                };
+                var tree = $scope.currentPattern.dependencyTree;
+                angular.forEach(relation.subject, function (v) {
+                    tuple.subject += (tree[v].word + ' ');
+                });
+                angular.forEach(relation.predicate, function (v) {
+                    tuple.predicate += (tree[v].word + ' ');
+                });
+                angular.forEach(relation.object, function (v) {
+                    tuple.object += (tree[v].word + ' ');
+                });
+                $scope.currentPattern.tuples.push(tuple);
+            }
+        });
+    };
+
+    $scope.savePattern = function () {
+        RestService.savePattern($scope.currentPattern.data)
+            .then(function (response) {
+                $scope.currentPattern.data = response.data;
+                console.log(response);
+            });
+    };
+
+    $scope.predictByPattern = function (text) {
+        RestService.predictByPattern(text)
+            .then(function (response) {
+                $scope.predicted = response.data;
+            });
     };
 
     $scope.switch('patterns');
