@@ -65,6 +65,17 @@
                 <div ng-repeat="y in currentPattern.dependencyTree" layout="column"
                      style="text-align: center; padding: 2px;">
                   <div>{{y.word}}</div>
+                  <div style="height: 20px; max-height: 20px; min-height: 20px">
+                  <span style="color: red" ng-if="relation.subject.indexOf($index) > -1">
+                                            SUBJ
+                                        </span>
+                    <span style="color: green" ng-if="relation.predicate.indexOf($index) > -1">
+                                            PRD
+                                        </span>
+                    <span style="color: blue" ng-if="relation.object.indexOf($index) > -1">
+                                            OBJ
+                                        </span>
+                  </div>
                   <md-switch ng-change="switchSubject(relation)" ng-model="relation.ssw[$index]"
                              aria-label="Subject">
                   </md-switch>
@@ -74,15 +85,6 @@
                   <md-switch ng-change="switchObject(relation)" ng-model="relation.osw[$index]"
                              aria-label="Object">
                   </md-switch>
-                  <span style="color: red" ng-if="relation.subject.indexOf($index) > -1">
-                                            SUBJ
-                                        </span>
-                  <span style="color: green" ng-if="relation.predicate.indexOf($index) > -1">
-                                            PRD
-                                        </span>
-                  <span style="color: blue" ng-if="relation.object.indexOf($index) > -1">
-                                            OBJ
-                                        </span>
                 </div>
               </div>
             </md-tab>
@@ -92,8 +94,11 @@
               </div>
             </md-tab>
           </md-tabs>
-          <div layout="row" dir="ltr" style="overflow: auto">
-            <pre ng-repeat="tuple in currentPattern.tuples">{{tuple | json}}</pre>
+          <div ng-if="currentPattern.tuples.length > 0">
+            نمونه‌هایی از سه‌تایی‌های قابل تولید
+            <div layout="row" dir="ltr" style="overflow: auto">
+              <pre ng-repeat="tuple in currentPattern.tuples">{{tuple | json}}</pre>
+            </div>
           </div>
           <div>
             <b>تعداد جملات:</b>
