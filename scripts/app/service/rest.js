@@ -171,6 +171,11 @@ app.service('RestService', ['$http', function ($http) {
         var url = baseURl + '/rest/v1/raw/predictByPatternPost';
         return post(url, {text: text});
     };
+
+    this.fkgfy = function (text) {
+        var url = baseURl + '/rest/v1/raw/FKGfy';
+        return post(url, {text: text});
+    };
 }]);
 
 var loading = {

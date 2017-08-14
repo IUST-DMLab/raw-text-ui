@@ -334,6 +334,13 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
+    $scope.fkgfy = function (text) {
+        RestService.fkgfy(text)
+            .then(function (response) {
+                $scope.fkgfied = response.data;
+            });
+    };
+
     var toast = function (message) {
         $mdToast.show(
             $mdToast.simple()

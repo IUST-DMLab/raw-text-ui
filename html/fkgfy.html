@@ -1,0 +1,37 @@
+<md-content flex layout-padding>
+    <md-tabs md-dynamic-height md-border-bottom md-selected="params.st">
+        <md-tab label="FKGfy!">
+            <md-content class="md-padding" layout-align="center center" layout-wrap>
+                <md-button ng-click="fkgfy(fkgfyText)" class="md-raised md-primary">
+                    FKGfy
+                </md-button>
+                <md-input-container class="md-block">
+                    <label>متن</label>
+                    <textarea ng-model="fkgfyText" md-maxlength="5000" rows="5" md-select-on-focus></textarea>
+                </md-input-container>
+                <style>
+                    .Beginning {
+                        border-right: solid 1px #cccccc;
+                        border-bottom: solid 1px #cccccc;
+                        border-radius: 1px;
+                    }
+
+                    .Inside {
+                        border-bottom: solid 1px #cccccc;
+                    }
+                </style>
+                <div layout="column" dir="rtl" style="overflow: auto">
+                    <div ng-repeat="sentence in fkgfied">
+                        <div ng-repeat="word in sentence"
+                             style="display: inline-block; padding: 4px" class="{{word.iobType}}">
+                            <div ng-if="word.resource">
+                                <a href="{{word.resource.iri}}">{{word.word}}</a>
+                            </div>
+                            <div ng-if="!word.resource">{{word.word}}</div>
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+</md-content>
