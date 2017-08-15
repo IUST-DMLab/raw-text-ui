@@ -6,22 +6,22 @@
                     FKGfy
                 </md-button>
                 <md-button ng-click="fkgfyDetailed(fkgfyText)" class="md-raised md-primary">
-                    FKGfy با نمایش جزئیات
+                    FKGfy با نمایش جزئیات و تصاویر
                 </md-button>
                 <md-input-container class="md-block">
                     <label>متن</label>
-                    <textarea ng-model="fkgfyText" md-maxlength="5000" rows="5" md-select-on-focus
+                    <textarea ng-model="fkgfyText" md-maxlength="5000" rows="4" md-select-on-focus
                               title="text"></textarea>
                 </md-input-container>
                 <style>
                     .Beginning {
-                        border-right: solid 1px #cccccc;
-                        border-bottom: solid 1px #cccccc;
+                        border-right: solid 1px #eeeeee;
+                        border-bottom: solid 1px #eeeeee;
                         border-radius: 1px;
                     }
 
                     .Inside {
-                        border-bottom: solid 1px #cccccc;
+                        border-bottom: solid 1px #eeeeee;
                     }
                 </style>
                 <div dir="rtl" layout="row">
@@ -32,25 +32,27 @@
                                 <div class="{{word.iobType}}"
                                      ng-mouseover="hoverDiv(word)">
                                     <div ng-if="word.resource">
-                                        <a href="{{word.resource.iri}}">{{word.word}}</a>
+                                        <a href="{{word.resource.iri}}" target="_blank">{{word.word}}</a>
                                     </div>
                                     <div ng-if="!word.resource">{{word.word}}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div flex="30" style="border: #777777 solid 1px; padding: 10px" ng-if="selectedWord">
-                        <div ng-if="selectedWord.entityData" style="max-width: 200px; display: inline-block;">
+                    <div flex="30" style="border: #bbbbbb dashed 1px; padding: 10px" ng-if="selectedWord">
+                        <div ng-if="selectedWord.entityData">
                             <img ng-if="selectedWord.entityData.image" src="{{selectedWord.entityData.image}}"
-                                 width="100%"/>
-                            <div style="display: inline-block; font-size: 10px">
+                                 width="200px"/>
+                            <div style="display: inline-block;">
                                 {{selectedWord.entityData.abstract}}
                             </div>
                         </div>
                         <div style="display: inline-block">
-                            <div ng-if="selectedWord.ambiguities.length > 0">ابهامات:</div>
+                            <div><b>لینک اصلی:</b></div>
+                            <a href="{{selectedWord.resource.iri}}" target="_blank">{{selectedWord.resource.iri}}</a>
+                            <div ng-if="selectedWord.ambiguities.length > 0"><b>ابهامات:</b></div>
                             <div ng-repeat="amb in selectedWord.ambiguities">
-                                <a href="{{amb.iri}}">{{amb.iri}}</a>
+                                <a href="{{amb.iri}}" target="_blank">{{amb.iri}}</a>
                             </div>
                         </div>
                     </div>
