@@ -196,8 +196,8 @@ app.controller('MainController', function ($scope, $http, RestService,
                 for (var j = 0; j < sentence.length; j++) {
                     var word = sentence[j];
                     conll += (word.position + "\t" + word.word + "\t" + word.lemma + "\t" + word.pos
-                    + "\t" + word.pos + "\t" + word.features + "\t" + (word.head === -1 ? '0' : word.head)
-                    + "\t" + word.relation + "\t-\t-\n");
+                        + "\t" + word.pos + "\t" + word.features + "\t" + (word.head === -1 ? '0' : word.head)
+                        + "\t" + word.relation + "\t-\t-\n");
                     s += (word.word + " ");
                 }
                 $scope.currentPattern.dependencyTreeConll = conll;
@@ -340,6 +340,38 @@ app.controller('MainController', function ($scope, $http, RestService,
                 $scope.fkgfied = response.data;
             });
     };
+
+    $scope.fkgfyDetailed = function (text) {
+        RestService.fkgfy(text)
+            .then(function (response) {
+                $scope.fkgfied = response.data;
+                var entities = [];
+                for (var i = 0; i < $scope.fkgfied.length; i++) {
+                    var sentence = $scope.fkgfied[i];
+                    for (var j = 0; j < sentence.length; j++) {
+                        if (!sentence[j].resource) continue;
+                        var iri = sentence[j].resource.iri;
+                        if (entities.indexOf(iri) === -1) entities.push(iri);
+                    }
+                }
+                RestService.getEntities(entities).then(function (entitiesResponse) {
+                    for (var i = 0; i < response.data.length; i++) {
+                        var sentence = $scope.fkgfied[i];
+                        for (var j = 0; j < sentence.length; j++) {
+                            if (!sentence[j].resource) continue;
+                            var iri = sentence[j].resource.iri;
+                            var index = entities.indexOf(iri);
+                            if (index !== -1) $scope.fkgfied[i][j].entityData = entitiesResponse.data[index];
+                        }
+                    }
+                });
+            });
+    };
+
+    $scope.hoverDiv = function (word) {
+        $scope.selectedWord = word;
+    };
+
 
     var toast = function (message) {
         $mdToast.show(

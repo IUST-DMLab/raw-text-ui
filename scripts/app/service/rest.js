@@ -1,5 +1,6 @@
 app.service('RestService', ['$http', function ($http) {
     var baseURl = 'http://dmls.iust.ac.ir:8100';
+    var mapperUrl = 'http://dmls.iust.ac.ir:8090';
     // var baseURl = 'http://localhost:8100';
 
     var self = this;
@@ -175,6 +176,11 @@ app.service('RestService', ['$http', function ($http) {
     this.fkgfy = function (text) {
         var url = baseURl + '/rest/v1/raw/FKGfy';
         return post(url, {text: text});
+    };
+
+    this.getEntities = function (entities) {
+        var url = mapperUrl + '/entity/rest/v1/getEntities';
+        return post(url, {entities: entities});
     };
 }]);
 

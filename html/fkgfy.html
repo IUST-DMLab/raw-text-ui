@@ -1,13 +1,17 @@
-<md-content flex layout-padding>
+<md-content>
     <md-tabs md-dynamic-height md-border-bottom md-selected="params.st">
-        <md-tab label="FKGfy!">
+        <md-tab label="تشخیص موجودیت">
             <md-content class="md-padding" layout-align="center center" layout-wrap>
                 <md-button ng-click="fkgfy(fkgfyText)" class="md-raised md-primary">
                     FKGfy
                 </md-button>
+                <md-button ng-click="fkgfyDetailed(fkgfyText)" class="md-raised md-primary">
+                    FKGfy با نمایش جزئیات
+                </md-button>
                 <md-input-container class="md-block">
                     <label>متن</label>
-                    <textarea ng-model="fkgfyText" md-maxlength="5000" rows="5" md-select-on-focus></textarea>
+                    <textarea ng-model="fkgfyText" md-maxlength="5000" rows="5" md-select-on-focus
+                              title="text"></textarea>
                 </md-input-container>
                 <style>
                     .Beginning {
@@ -20,14 +24,34 @@
                         border-bottom: solid 1px #cccccc;
                     }
                 </style>
-                <div layout="column" dir="rtl" style="overflow: auto">
-                    <div ng-repeat="sentence in fkgfied">
-                        <div ng-repeat="word in sentence"
-                             style="display: inline-block; padding: 4px" class="{{word.iobType}}">
-                            <div ng-if="word.resource">
-                                <a href="{{word.resource.iri}}">{{word.word}}</a>
+                <div dir="rtl" layout="row">
+                    <div flex="70" layout="column">
+                        <div ng-repeat="sentence in fkgfied">
+                            <div ng-repeat="word in sentence"
+                                 style="display: inline-block; padding: 4px">
+                                <div class="{{word.iobType}}"
+                                     ng-mouseover="hoverDiv(word)">
+                                    <div ng-if="word.resource">
+                                        <a href="{{word.resource.iri}}">{{word.word}}</a>
+                                    </div>
+                                    <div ng-if="!word.resource">{{word.word}}</div>
+                                </div>
                             </div>
-                            <div ng-if="!word.resource">{{word.word}}</div>
+                        </div>
+                    </div>
+                    <div flex="30" style="border: #777777 solid 1px; padding: 10px" ng-if="selectedWord">
+                        <div ng-if="selectedWord.entityData" style="max-width: 200px; display: inline-block;">
+                            <img ng-if="selectedWord.entityData.image" src="{{selectedWord.entityData.image}}"
+                                 width="100%"/>
+                            <div style="display: inline-block; font-size: 10px">
+                                {{selectedWord.entityData.abstract}}
+                            </div>
+                        </div>
+                        <div style="display: inline-block">
+                            <div ng-if="selectedWord.ambiguities.length > 0">ابهامات:</div>
+                            <div ng-repeat="amb in selectedWord.ambiguities">
+                                <a href="{{amb.iri}}">{{amb.iri}}</a>
+                            </div>
                         </div>
                     </div>
                 </div>
