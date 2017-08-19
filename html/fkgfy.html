@@ -49,10 +49,14 @@
                         </div>
                         <div style="display: inline-block">
                             <div><b>لینک اصلی:</b></div>
-                            <a href="{{selectedWord.resource.iri}}" target="_blank">{{selectedWord.resource.iri}}</a>
+                            <b>{{selectedWord.resource.rank}}: </b>
+                            <a href="{{selectedWord.resource.iri}}" target="_blank">
+                                {{selectedWord.resource.iri}}
+                            </a>
                             <div ng-if="selectedWord.ambiguities.length > 0"><b>ابهامات:</b></div>
                             <div ng-repeat="amb in selectedWord.ambiguities">
-                                <a href="{{amb.iri}}" target="_blank">{{amb.iri}}</a>
+                                <b>{{amb.rank}}: </b>
+                                <a href="{{amb.iri}}" target="_blank">{{amb.rank}}: {{amb.iri}}</a>
                             </div>
                         </div>
                     </div>
