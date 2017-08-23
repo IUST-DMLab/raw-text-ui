@@ -1,4 +1,4 @@
-<md-content flex layout-padding>
+<md-content flex layout-padding ng-if="username">
     <md-tabs md-dynamic-height md-border-bottom md-selected="params.st">
         <md-tab label="جستجو">
             <div layout="row" layout-sm="column" layout-align="center center" layout-wrap>
@@ -107,8 +107,8 @@
                         برای اینکه دو نفر هزمان روی یک کارت کار نکنند، قبل از اعمال تغییرات روی کارت‌ها، تعدادی از آن‌ها
                         را به خود تخصیص دهید.
                     </div>
-                    <md-input-container>
-                        <label>تخصیص به کاربر</label>
+                    <md-input-container ng-if="username=='superuser'">
+                        <label>کاربر</label>
                         <md-select ng-model="params.assignAssignee">
                             <md-option ng-repeat="x in users" ng-value="x.username">{{x.username}}</md-option>
                         </md-select>
@@ -122,11 +122,11 @@
                         <input ng-model="params.assignCount" type="number" step="1">
                     </md-input-container>
                     <div layout="row" layout-align="center center" layout-wrap>
-                        <md-button class="md-primary" ng-disabled="!params.assignAssignee || !params.assignCount"
+                        <md-button class="md-primary" ng-disabled="!params.assignCount"
                                    ng-click="assign(false, params.assignAssignee, params.assignPredicate, params.assignCount)">
                             تخصیص
                         </md-button>
-                        <md-button class="md-primary" ng-disabled="!params.assignAssignee || !params.assignCount"
+                        <md-button class="md-primary" ng-disabled="!params.assignCount"
                                    ng-click="assign(true, params.assignAssignee, params.assignPredicate, params.assignCount)">
                             تخصیص و جستجو
                         </md-button>

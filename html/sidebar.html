@@ -1,4 +1,14 @@
-<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+<div ng-if="!username" style="text-align: center; width:100%">
+برای استفاده از سامانه باید در 
+<a href="..">
+سیستم احراز هویت 
+</a>
+لاگین کنید.
+</div>
+<md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links" ng-if="username">
+	<div style="color:red; direction: rtl">
+	| {{username}} عزیز، خوش آمدید
+	</div>
     <md-nav-item md-nav-click="switch('triples')" name="page1">
         سه تایی‌ها
     </md-nav-item>

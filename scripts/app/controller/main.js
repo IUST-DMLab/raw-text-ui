@@ -1,6 +1,10 @@
 app.controller('MainController', function ($scope, $http, RestService,
                                            $cookieStore, $mdSidenav, $timeout,
                                            $filter, $mdDialog, $mdToast, $localStorage) {
+											   
+	$scope.username = localStorage.getItem('username');
+	if(!$scope.username) return;
+											   
     $scope.colors = {
         null: 'indigo',
         true: 'green',
@@ -11,7 +15,9 @@ app.controller('MainController', function ($scope, $http, RestService,
         predicate: null,
         minOccurrence: null,
         approved: null,
-        selectedTab: 0
+        selectedTab: 0,
+		assignee: $scope.username,
+		assignAssignee: $scope.username
     };
 
     $scope.cardSearch = {
@@ -72,6 +78,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     };
 
     $scope.assign = function (switchSearch, assignee, predicate, count) {
+		if(!assignee) assignee == $scope.username;
         RestService.assign(assignee, predicate, count)
             .then(function (response) {
                 var message = "";

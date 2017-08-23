@@ -1,8 +1,9 @@
 app.service('RestService', ['$http', function ($http) {
-    var baseURl = 'http://dmls.iust.ac.ir:8100';
+	var baseURl = 'http://dmls.iust.ac.ir:8099/proxy/raw';
+    //var baseURl = 'http://dmls.iust.ac.ir:8100';
     var mapperUrl = 'http://dmls.iust.ac.ir:8090';
     // var baseURl = 'http://localhost:8100';
-
+	
     var self = this;
     this.ingoing = 0;
 
@@ -23,10 +24,16 @@ app.service('RestService', ['$http', function ($http) {
         return response;
     }
 
-    function get(url, params, headers) {
+    function get(url, params, headers, auth) {
         params = params || {};
         params.random = new Date().getTime();
 
+		headers = headers || {};
+        if (auth === undefined || auth === null || auth) {
+            headers["Access-Control-Request-Headers"] = 'x-auth-token';
+            headers["x-auth-token"] = localStorage.getItem('authToken');
+        }
+		
         var req = {
             method: 'GET',
             url: url,
@@ -39,7 +46,12 @@ app.service('RestService', ['$http', function ($http) {
         return $http(req).then(onsuccess, onerror);
     }
 
-    function post(url, data, headers) {
+    function post(url, data, headers, auth) {
+		
+		headers = headers || {};
+        headers["Access-Control-Request-Headers"] = 'x-auth-token';
+        headers["x-auth-token"] = localStorage.getItem('authToken');
+		
         var req = {
             method: 'POST',
             url: url,
