@@ -3,6 +3,7 @@ var app = angular.module('rawTextApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'n
     .config(function ($mdIconProvider) {
         //C:\Workspace\knowledge_graph\gui\raw-text-ui\node_modules\ionicons\dist\svg
         $mdIconProvider
+            .icon('toolbar:close', 'node_modules/ionicons/dist/svg/ios-close-circle', 24)
             .icon('menu:rule', 'node_modules/ionicons/dist/svg/md-git-merge.svg', 24)
             .icon('menu:triple', 'node_modules/ionicons/dist/svg/ios-apps.svg', 24)
             .icon('menu:pattern', 'node_modules/ionicons/dist/svg/md-analytics.svg', 24)

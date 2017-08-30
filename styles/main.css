@@ -210,3 +210,7 @@ disable-animation *,
     display: inline-block;
     padding: 5px;
 }
+
+.no-margin {
+    margin: 0;
+}

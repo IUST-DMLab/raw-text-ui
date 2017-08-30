@@ -86,6 +86,14 @@
             </div>
         </md-tab>
         <md-tab label="نمایش سند برگزیده">
+            <md-input-container>
+                <label>عنوان</label>
+                <input ng-model="repository.selectedArticle.title">
+            </md-input-container>
+            <md-checkbox ng-model="repository.selectedArticle.approved">تایید سند</md-checkbox>
+            <span>تعداد رابطه‌های سند: {{repository.selectedArticle.numberOfRelations}}</span>
+            <span>نسبت رابطه‌ها به جملات: {{repository.selectedArticle.percentOfRelations}}</span>
+            <md-button class="md-primary" ng-click="saveArticle()">ذخیره</md-button>
             <md-checkbox ng-model="storage.showPos">نمایش برچسب ادات سخن</md-checkbox>
             <md-checkbox ng-model="storage.showAmbiguities">نمایش تعداد ابهامات</md-checkbox>
             <div ng-repeat="sentence in repository.selectedArticle.sentences">
@@ -102,6 +110,22 @@
                         <span ng-if="token.ambiguities.length">{{token.ambiguities.length + 1}}</span>
                     </div>
                 </div>
+                / تعداد رابطه‌ها:
+                <md-button md-colors="{background: 'grey'}" class="md-fab md-mini no-margin"
+                           ng-click="setNumberOfRelations($index, 0)">۰
+                </md-button>
+                <md-button md-colors="{background: 'green'}" class="md-fab md-mini no-margin"
+                           ng-click="setNumberOfRelations($index, 1)">۱
+                </md-button>
+                <md-button md-colors="{background: 'blue'}" class="md-fab md-mini no-margin"
+                           ng-click="setNumberOfRelations($index, 2)">۲
+                </md-button>
+                <md-button md-colors="{background: 'red'}" class="md-fab md-mini no-margin"
+                           ng-click="setNumberOfRelations($index, 3)">۳
+                </md-button>
+                <md-button md-colors="{background: 'orange'}" class="no-margin"
+                           ng-click="setRelations($index)">ویرایش رابطه
+                </md-button>
             </div>
         </md-tab>
     </md-tabs>

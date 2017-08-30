@@ -436,7 +436,97 @@ app.controller('MainController', function ($scope, $http, RestService,
         $scope.repository.tab = 3;
     };
 
-    $scope.repository.tab = 2;
+    $scope.setNumberOfRelations = function (index, number) {
+        var sum = 0;
+        $scope.repository.selectedArticle.sentences[index].numberOfRelations = number;
+        angular.forEach($scope.repository.selectedArticle.sentences, function (sentence) {
+            sum += sentence.numberOfRelations;
+        });
+        $scope.repository.selectedArticle.numberOfRelations = sum;
+        $scope.repository.selectedArticle.percentOfRelations = $scope.repository.selectedArticle.numberOfRelations /
+            $scope.repository.selectedArticle.numberOfSentences;
+    };
+
+    $scope.setRelations = function (index) {
+        $mdDialog.show({
+            controller: DialogController,
+            templateUrl: 'html/editRelation.tmpl.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            locals: {
+                sentence: $scope.repository.selectedArticle.sentences[index]
+            }
+        }).then(function (answer) {
+            console.log(answer);
+        }, function () {
+            console.log('canceled');
+        });
+    };
+
+    $scope.saveArticle = function () {
+        RestService.saveArticle($scope.repository.selectedArticle)
+            .then(function (response) {
+                if (response.data) toast('مقاله ذخیره شد.');
+                else toast('ذخیره نشد.');
+            });
+    };
+
+    function DialogController($scope, $mdDialog, sentence) {
+        $scope.sentence = sentence;
+        $scope.relation = {
+            subject: [],
+            predicate: [],
+            object: []
+        };
+
+        angular.forEach($scope.sentence.tokens, function (token) {
+            $scope.relation.subject.push(false);
+            $scope.relation.predicate.push(false);
+            $scope.relation.object.push(false);
+        });
+
+        var buildSelection = function () {
+            var selection = {
+                tokens: $scope.sentence.tokens,
+                manualPredicate: $scope.manualPredicate,
+                subject: [],
+                predicate: [],
+                object: []
+            };
+            var i;
+            for (i = 0; i < $scope.relation.subject.length; i++) {
+                if ($scope.relation.subject[i])
+                    selection.subject.push(i);
+            }
+            for (i = 0; i < $scope.relation.predicate.length; i++) {
+                if ($scope.relation.predicate[i])
+                    selection.predicate.push(i);
+            }
+            for (i = 0; i < $scope.relation.object.length; i++) {
+                if ($scope.relation.object[i])
+                    selection.object.push(i);
+            }
+            return selection;
+        };
+
+        $scope.hide = function () {
+            $mdDialog.hide();
+        };
+
+        $scope.addAsCard = function () {
+            RestService.selectForOccurrence(buildSelection())
+                .then(function (response) {
+                    toast('به سه‌تایی‌های طلایی افزوده شد.');
+                });
+        };
+
+        $scope.addAsDepRel = function () {
+            RestService.selectForDependencyRelation(buildSelection())
+                .then(function (response) {
+                    toast('به الگوهای وابستگی افزوده شد.');
+                });
+        };
+    }
 
     $scope.hoverDiv = function (word) {
         $scope.selectedWord = word;

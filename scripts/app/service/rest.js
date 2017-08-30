@@ -243,6 +243,21 @@ app.service('RestService', ['$http', function ($http) {
         if (!OUC.isEmpty(approved)) params.approved = approved;
         return get(url, params);
     };
+
+    this.saveArticle = function (article) {
+        var url = baseURl + '/rest/v1/raw/repository/saveArticle';
+        return post(url, article);
+    };
+
+    this.selectForDependencyRelation = function (article) {
+        var url = baseURl + '/rest/v1/raw/repository/selectForDependencyRelation';
+        return post(url, article);
+    };
+
+    this.selectForOccurrence = function (article) {
+        var url = baseURl + '/rest/v1/raw/repository/selectForOccurrence';
+        return post(url, article);
+    };
 }]);
 
 var loading = {
