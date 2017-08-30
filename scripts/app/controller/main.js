@@ -416,8 +416,27 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    $scope.repository.path = ['news', '3'];
-    $scope.openDocument('1136S1.txt.json');
+    $scope.searchArticles = function () {
+        RestService.searchArticles($scope.repository.page, 20,
+            $scope.repository.pathSearch, $scope.repository.title,
+            $scope.repository.minPercentOfRelations, $scope.repository.approved)
+            .then(function (response) {
+                console.log(response.data);
+                $scope.repository.articles = response.data;
+            });
+    };
+
+    $scope.$watch('repository.tab', function (current, old) {
+        if (current === 2) $scope.searchArticles();
+    });
+
+    $scope.editArticle = function (index) {
+        $scope.repository.selectedArticleIndex = index;
+        $scope.repository.selectedArticle = $scope.repository.articles.content[index];
+        $scope.repository.tab = 3;
+    };
+
+    $scope.repository.tab = 2;
 
     $scope.hoverDiv = function (word) {
         $scope.selectedWord = word;

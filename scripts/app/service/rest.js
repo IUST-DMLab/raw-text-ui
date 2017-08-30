@@ -230,6 +230,19 @@ app.service('RestService', ['$http', function ($http) {
         };
         return get(url, params);
     };
+
+    this.searchArticles = function (page, pageSize, path, title, minPercentOfRelations, approved) {
+        var url = baseURl + '/rest/v1/raw/repository/searchArticles';
+        var params = {
+            page: page,
+            pageSize: pageSize
+        };
+        if (!OUC.isEmpty(path)) params.path = path;
+        if (!OUC.isEmpty(title)) params.title = title;
+        if (!OUC.isEmpty(minPercentOfRelations)) params.minPercentOfRelations = minPercentOfRelations;
+        if (!OUC.isEmpty(approved)) params.approved = approved;
+        return get(url, params);
+    };
 }]);
 
 var loading = {
