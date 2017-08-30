@@ -23,12 +23,14 @@
             </md-content>
         </md-tab>
         <md-tab label="نمایش سند">
-            {{repository.docName}}
-            <md-checkbox ng-model="storage.showPos">نمایش برچسب ادات سخن</md-checkbox>
-            <md-checkbox ng-model="storage.showAmbiguities">نمایش تعداد ابهامات</md-checkbox>
             <md-button ng-click="markDocument()">ذخیره سند به عنوان برگزیده</md-button>
             <md-button ng-click="nextDocument()">سند بعدی</md-button>
             <md-button ng-click="previousDocument()">سند قبلی</md-button>
+            {{repository.docName}}
+            <div layout="raw">
+                <md-checkbox ng-model="storage.showPos">نمایش برچسب ادات سخن</md-checkbox>
+                <md-checkbox ng-model="storage.showAmbiguities">نمایش تعداد ابهامات</md-checkbox>
+            </div>
             <div ng-repeat="sentence in repository.document">
                 <div ng-repeat="token in sentence" class="word" layout="row" layout-align="center center">
                     <div class="{{token.iobType}}">
@@ -99,8 +101,10 @@
             <span>تعداد رابطه‌های سند: {{repository.selectedArticle.numberOfRelations}}</span>
             <span>نسبت رابطه‌ها به جملات: {{repository.selectedArticle.percentOfRelations}}</span>
             <md-button class="md-primary" ng-click="saveArticle()">ذخیره</md-button>
-            <md-checkbox ng-model="storage.showPos">نمایش برچسب ادات سخن</md-checkbox>
-            <md-checkbox ng-model="storage.showAmbiguities">نمایش تعداد ابهامات</md-checkbox>
+            <div layout="raw">
+                <md-checkbox ng-model="storage.showPos">نمایش برچسب ادات سخن</md-checkbox>
+                <md-checkbox ng-model="storage.showAmbiguities">نمایش تعداد ابهامات</md-checkbox>
+            </div>
             <div ng-repeat="sentence in repository.selectedArticle.sentences">
                 <div ng-repeat="token in sentence.tokens" class="word" layout="row" layout-align="center center">
                     <div class="{{token.iobType}}">
