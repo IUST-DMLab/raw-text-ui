@@ -13,7 +13,7 @@
                                 <md-icon md-colors="{color: 'red'}" md-svg-icon="file:folder"></md-icon>
                                 <span>{{file.name}}</span>
                             </md-button>
-                            <md-button ng-if="!file.directory" ng-click="openDocument(file.name)" flex="100">
+                            <md-button ng-if="!file.directory" ng-click="openDocument($index)" flex="100">
                                 <md-icon md-colors="{color: 'green'}" md-svg-icon="file:text"></md-icon>
                                 <span>{{file.name}}</span>
                             </md-button>
@@ -23,9 +23,12 @@
             </md-content>
         </md-tab>
         <md-tab label="نمایش سند">
+            {{repository.docName}}
             <md-checkbox ng-model="storage.showPos">نمایش برچسب ادات سخن</md-checkbox>
             <md-checkbox ng-model="storage.showAmbiguities">نمایش تعداد ابهامات</md-checkbox>
             <md-button ng-click="markDocument()">ذخیره سند به عنوان برگزیده</md-button>
+            <md-button ng-click="nextDocument()">سند بعدی</md-button>
+            <md-button ng-click="previousDocument()">سند قبلی</md-button>
             <div ng-repeat="sentence in repository.document">
                 <div ng-repeat="token in sentence" class="word" layout="row" layout-align="center center">
                     <div class="{{token.iobType}}">
@@ -65,22 +68,24 @@
             </div>
             <div layout="column" layout-align="center" flex="80" flex-offset="10">
                 <div layout="row">
-                    <div flex="20"><b>عنوان</b></div>
-                    <div flex="35"><b>مسیر</b></div>
+                    <div flex="15"><b>عنوان</b></div>
+                    <div flex="30"><b>مسیر</b></div>
                     <div flex="10"><b>تعداد جملات</b></div>
                     <div flex="10"><b>درصد رابطه‌ها</b></div>
                     <div flex="10"><b>تایید شده</b></div>
+                    <div flex="10"><b>انتخاب شده توسط</b></div>
                     <div flex="15"></div>
                 </div>
                 <div ng-if="repository.articles.content.length == 0" layout="row" layout-align="center">
                     هیچ موردی پیدا نشد
                 </div>
                 <div ng-repeat="document in repository.articles.content" layout="row">
-                    <div flex="20">{{document.title}}</div>
-                    <div flex="35">{{document.path}}</div>
+                    <div flex="15">{{document.title}}</div>
+                    <div flex="30">{{document.path}}</div>
                     <div flex="10">{{document.numberOfSentences}}</div>
                     <div flex="10">{{document.percentOfRelations}}</div>
                     <div flex="10">{{document.approved}}</div>
+                    <div flex="10">{{document.selectedByUser.username}}</div>
                     <md-button flex="15" ng-click="editArticle($index)">ویرایش</md-button>
                 </div>
             </div>

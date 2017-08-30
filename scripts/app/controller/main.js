@@ -397,7 +397,9 @@ app.controller('MainController', function ($scope, $http, RestService,
         $scope.getRepositoryLs();
     };
 
-    $scope.openDocument = function (name) {
+    $scope.openDocument = function (index) {
+        $scope.lastSelectedDocumentIndex = index;
+        var name = $scope.repository.ls[index].name;
         RestService.getRepositoryGet(getAsString($scope.repository.path) + name)
             .then(function (response) {
                 $scope.repository.tab = 1;
@@ -405,6 +407,16 @@ app.controller('MainController', function ($scope, $http, RestService,
                 $scope.repository.document = response.data;
                 console.log(response.data);
             });
+    };
+
+    $scope.nextDocument = function () {
+        if ($scope.lastSelectedDocumentIndex < $scope.repository.ls.length - 1)
+            $scope.openDocument($scope.lastSelectedDocumentIndex + 1);
+    };
+
+    $scope.previousDocument = function () {
+        if ($scope.lastSelectedDocumentIndex > 1)
+            $scope.openDocument($scope.lastSelectedDocumentIndex - 1);
     };
 
     $scope.markDocument = function () {
