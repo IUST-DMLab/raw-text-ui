@@ -24,6 +24,7 @@
     "angular-sanitize": "^1.6.4",
     "d3": "^4.9.1",
     "font-awesome": "^4.7.0",
+    "ionicons": "^3.0.0",
     "jquery": "^2.2.4",
     "ngstorage": "^0.3.11"
   }

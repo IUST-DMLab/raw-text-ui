@@ -1,11 +1,16 @@
 app.service('RestService', ['$http', function ($http) {
-	var baseURl = 'http://dmls.iust.ac.ir:8099/proxy/raw';
+    // var baseURl = 'http://dmls.iust.ac.ir:8099/proxy/raw';
     //var baseURl = 'http://dmls.iust.ac.ir:8100';
-    var mapperUrl = 'http://dmls.iust.ac.ir:8090';
-    // var baseURl = 'http://localhost:8100';
-	
+    // var mapperUrl = 'http://dmls.iust.ac.ir:8090';
+    var baseURl = 'http://localhost:8100';
+    var testUser = "test";
+
     var self = this;
     this.ingoing = 0;
+
+    self.getTestUser = function () {
+        return testUser;
+    };
 
     self.init = function (rootAddress) {
         baseURl = rootAddress;
@@ -28,12 +33,15 @@ app.service('RestService', ['$http', function ($http) {
         params = params || {};
         params.random = new Date().getTime();
 
-		headers = headers || {};
+        headers = headers || {};
         if (auth === undefined || auth === null || auth) {
-            headers["Access-Control-Request-Headers"] = 'x-auth-token';
-            headers["x-auth-token"] = localStorage.getItem('authToken');
+            if (testUser !== null) headers["x-auth-username"] = testUser;
+            else {
+                headers["Access-Control-Request-Headers"] = 'x-auth-token';
+                headers["x-auth-token"] = localStorage.getItem('authToken');
+            }
         }
-		
+
         var req = {
             method: 'GET',
             url: url,
@@ -47,11 +55,16 @@ app.service('RestService', ['$http', function ($http) {
     }
 
     function post(url, data, headers, auth) {
-		
-		headers = headers || {};
-        headers["Access-Control-Request-Headers"] = 'x-auth-token';
-        headers["x-auth-token"] = localStorage.getItem('authToken');
-		
+
+        headers = headers || {};
+        if (auth === undefined || auth === null || auth) {
+            if (testUser !== null) headers["x-auth-username"] = testUser;
+            else {
+                headers["Access-Control-Request-Headers"] = 'x-auth-token';
+                headers["x-auth-token"] = localStorage.getItem('authToken');
+            }
+        }
+
         var req = {
             method: 'POST',
             url: url,
@@ -193,6 +206,13 @@ app.service('RestService', ['$http', function ($http) {
     this.getEntities = function (entities) {
         var url = mapperUrl + '/entity/rest/v1/getEntities';
         return post(url, {entities: entities});
+    };
+
+    this.getRepositoryLs = function (path) {
+        var url = baseURl + '/rest/v1/raw/repository/ls';
+        var params = {};
+        if (path !== undefined) params.path = path;
+        return get(url, params);
     };
 }]);
 

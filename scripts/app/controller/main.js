@@ -1,10 +1,13 @@
 app.controller('MainController', function ($scope, $http, RestService,
                                            $cookieStore, $mdSidenav, $timeout,
                                            $filter, $mdDialog, $mdToast, $localStorage) {
-											   
-	$scope.username = localStorage.getItem('username');
-	if(!$scope.username) return;
-											   
+
+    $scope.username = localStorage.getItem('username');
+    if (!$scope.username) {
+        $scope.username = RestService.getTestUser();
+        if (!$scope.username) return;
+    }
+
     $scope.colors = {
         null: 'indigo',
         true: 'green',
@@ -16,8 +19,8 @@ app.controller('MainController', function ($scope, $http, RestService,
         minOccurrence: null,
         approved: null,
         selectedTab: 0,
-		assignee: $scope.username,
-		assignAssignee: $scope.username
+        assignee: $scope.username,
+        assignAssignee: $scope.username
     };
 
     $scope.cardSearch = {
@@ -78,7 +81,7 @@ app.controller('MainController', function ($scope, $http, RestService,
     };
 
     $scope.assign = function (switchSearch, assignee, predicate, count) {
-		if(!assignee) assignee == $scope.username;
+        if (!assignee) assignee == $scope.username;
         RestService.assign(assignee, predicate, count)
             .then(function (response) {
                 var message = "";
@@ -103,17 +106,6 @@ app.controller('MainController', function ($scope, $http, RestService,
                         .hideDelay(3000)
                 );
             });
-    };
-
-    $scope.switch = function (tab) {
-        $scope.storage.selectedTab = tab;
-        $scope.tab = tab;
-        if (tab === 'triples') {
-            $scope.getUsers();
-            $scope.go(1);
-        }
-        else if (tab === 'rules') $scope.getRules();
-        else $scope.goPatterns(1)
     };
 
     $scope.vote = function (x, approved) {
@@ -375,6 +367,37 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
+    $scope.repository = {
+        path: []
+    };
+
+    var getAsString = function (path) {
+        var builder = '';
+        angular.forEach(path, function (part) {
+            builder += (part + '/');
+        });
+        return builder;
+    };
+
+    $scope.getRepositoryLs = function () {
+
+        RestService.getRepositoryLs(getAsString($scope.repository.path))
+            .then(function (response) {
+                $scope.repository.ls = response.data;
+                console.log(response);
+            });
+    };
+
+    $scope.gotoPath = function (name) {
+        $scope.repository.path.push(name);
+        $scope.getRepositoryLs();
+    };
+
+    $scope.gotoUp = function () {
+        $scope.repository.path.pop();
+        $scope.getRepositoryLs();
+    };
+
     $scope.hoverDiv = function (word) {
         $scope.selectedWord = word;
     };
@@ -388,6 +411,19 @@ app.controller('MainController', function ($scope, $http, RestService,
                 .hideDelay(3000)
         );
     };
+
+    $scope.switch = function (tab) {
+        $scope.storage.selectedTab = tab;
+        $scope.tab = tab;
+        if (tab === 'triples') {
+            $scope.getUsers();
+            $scope.go(1);
+        }
+        else if (tab === 'rules') $scope.getRules();
+        else if (tab === 'repository') $scope.getRepositoryLs();
+        else $scope.goPatterns(1);
+    };
+
 
     $scope.storage = $localStorage.$default({selectedTab: 'triples'});
 

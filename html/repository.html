@@ -1,0 +1,26 @@
+<md-content>
+    <md-tabs md-dynamic-height md-border-bottom md-selected="params.st">
+        <md-tab label="کاوش در گنجه">
+            <md-content class="md-padding" layout-align="center center" layout-wrap>
+                <div dir="ltr">
+                    <md-button ng-if="repository.path.length > 0" ng-click="gotoUp()">
+                        <md-icon md-colors="{color: 'blue'}" md-svg-icon="file:back"></md-icon>
+                        <span>قبلی</span>
+                    </md-button>
+                    <div layout="row" layout-wrap>
+                        <div ng-repeat="file in repository.ls" flex="25">
+                            <md-button ng-if="file.directory" ng-click="gotoPath(file.name)">
+                                <md-icon md-colors="{color: 'red'}" md-svg-icon="file:folder"></md-icon>
+                                <span>{{file.name}}</span>
+                            </md-button>
+                            <md-button ng-if="!file.directory" ng-click="openDocument(file.name)" flex="100">
+                                <md-icon md-colors="{color: 'green'}" md-svg-icon="file:text"></md-icon>
+                                <span>{{file.name}}</span>
+                            </md-button>
+                        </div>
+                    </div>
+                </div>
+            </md-content>
+        </md-tab>
+    </md-tabs>
+</md-content>
