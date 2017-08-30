@@ -214,6 +214,22 @@ app.service('RestService', ['$http', function ($http) {
         if (path !== undefined) params.path = path;
         return get(url, params);
     };
+
+    this.getRepositoryGet = function (path) {
+        var url = baseURl + '/rest/v1/raw/repository/get';
+        var params = {
+            path: path
+        };
+        return get(url, params);
+    };
+
+    this.getRepositoryMark = function (path) {
+        var url = baseURl + '/rest/v1/raw/repository/mark';
+        var params = {
+            path: path
+        };
+        return get(url, params);
+    };
 }]);
 
 var loading = {

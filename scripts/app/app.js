@@ -1,7 +1,13 @@
 var app = angular.module('rawTextApp', ['ngRoute', 'ngMaterial', 'ngAnimate', 'ngAria',
     'ngMessages', 'ngCookies', 'ngMdIcons', 'ngSanitize', 'ngStorage'])
     .config(function ($mdIconProvider) {
+        //C:\Workspace\knowledge_graph\gui\raw-text-ui\node_modules\ionicons\dist\svg
         $mdIconProvider
+            .icon('menu:rule', 'node_modules/ionicons/dist/svg/md-git-merge.svg', 24)
+            .icon('menu:triple', 'node_modules/ionicons/dist/svg/ios-apps.svg', 24)
+            .icon('menu:pattern', 'node_modules/ionicons/dist/svg/md-analytics.svg', 24)
+            .icon('menu:entities', 'node_modules/ionicons/dist/svg/ios-contacts.svg', 24)
+            .icon('menu:repository', 'node_modules/ionicons/dist/svg/ios-book.svg', 24)
             .icon('file:back', 'node_modules/ionicons/dist/svg/ios-arrow-back.svg', 24)
             .icon('file:folder', 'node_modules/ionicons/dist/svg/md-folder.svg', 24)
             .icon('file:text', 'node_modules/ionicons/dist/svg/md-document.svg', 24);

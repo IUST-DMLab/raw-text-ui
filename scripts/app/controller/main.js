@@ -380,7 +380,6 @@ app.controller('MainController', function ($scope, $http, RestService,
     };
 
     $scope.getRepositoryLs = function () {
-
         RestService.getRepositoryLs(getAsString($scope.repository.path))
             .then(function (response) {
                 $scope.repository.ls = response.data;
@@ -397,6 +396,28 @@ app.controller('MainController', function ($scope, $http, RestService,
         $scope.repository.path.pop();
         $scope.getRepositoryLs();
     };
+
+    $scope.openDocument = function (name) {
+        RestService.getRepositoryGet(getAsString($scope.repository.path) + name)
+            .then(function (response) {
+                $scope.repository.tab = 1;
+                $scope.repository.docName = name;
+                $scope.repository.document = response.data;
+                console.log(response.data);
+            });
+    };
+
+    $scope.markDocument = function () {
+        RestService.getRepositoryMark(getAsString($scope.repository.path) + $scope.repository.docName)
+            .then(function (response) {
+                console.log(response.data);
+                if (response.data) toast('سند اضافه شد.');
+                else toast('سند اضافه نشد. آیا قبلا این سند را اضافه کرده بودید؟');
+            });
+    };
+
+    $scope.repository.path = ['news', '3'];
+    $scope.openDocument('1136S1.txt.json');
 
     $scope.hoverDiv = function (word) {
         $scope.selectedWord = word;
@@ -425,7 +446,11 @@ app.controller('MainController', function ($scope, $http, RestService,
     };
 
 
-    $scope.storage = $localStorage.$default({selectedTab: 'triples'});
+    $scope.storage = $localStorage.$default({
+        selectedTab: 'triples',
+        showPos: false,
+        showAmbiguities: false
+    });
 
     // $scope.switch('patterns');
     $scope.switch($scope.storage.selectedTab);

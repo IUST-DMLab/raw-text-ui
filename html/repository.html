@@ -1,5 +1,5 @@
 <md-content>
-    <md-tabs md-dynamic-height md-border-bottom md-selected="params.st">
+    <md-tabs md-dynamic-height md-border-bottom md-selected="repository.tab">
         <md-tab label="کاوش در گنجه">
             <md-content class="md-padding" layout-align="center center" layout-wrap>
                 <div dir="ltr">
@@ -21,6 +21,26 @@
                     </div>
                 </div>
             </md-content>
+        </md-tab>
+        <md-tab label="نمایش سند">
+            <md-checkbox ng-model="storage.showPos">نمایش برچسب ادات سخن</md-checkbox>
+            <md-checkbox ng-model="storage.showAmbiguities">نمایش تعداد ابهامات</md-checkbox>
+            <md-button ng-click="markDocument()">ذخیره سند به عنوان برگزیده</md-button>
+            <div ng-repeat="sentence in repository.document">
+                <div ng-repeat="token in sentence" class="word" layout="row" layout-align="center center">
+                    <div class="{{token.iobType}}">
+                        <div ng-if="token.resource">
+                            <a href="{{token.resource.iri}}" target="_blank">{{token.word}}</a>
+                        </div>
+                        <div ng-if="!token.resource">{{token.word}}</div>
+                    </div>
+                    <div ng-if="storage.showPos">{{token.pos}}</div>
+                    <div ng-if="storage.showAmbiguities">
+                        <span ng-if="!token.ambiguities.length">0</span>
+                        <span ng-if="token.ambiguities.length">{{token.ambiguities.length + 1}}</span>
+                    </div>
+                </div>
+            </div>
         </md-tab>
     </md-tabs>
 </md-content>
