@@ -48,7 +48,8 @@
             </div>
         </md-tab>
         <md-tab label="اسناد برگزیده">
-            <div layout flex="80" flex-offset="10" layout-align="center center" layout-padding>
+            <div layout flex="80" flex-offset="10" layout-align="center center" layout-padding
+                 ng-if="repository.articles">
                 <md-input-container>
                     <label>عنوان</label>
                     <input ng-model="repository.title">
@@ -71,6 +72,7 @@
                     <input ng-change="searchArticles(repository.articles.pageNo)" ng-model="repository.articles.pageNo"
                            type="number" max="{{repository.articles.totalPages}}" min="0" step="1">
                 </md-input-container>
+                از {{repository.articles.totalPages}}
                 <md-button class="md-primary" aria-label="بعدی"
                            ng-disabled="repository.articles.pageNo==repository.articles.totalPages"
                            ng-click="searchArticles(repository.articles.pageNo + 1)">بعدی
