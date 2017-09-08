@@ -132,7 +132,9 @@
                         <span ng-if="token.ambiguities.length">{{token.ambiguities.length + 1}}</span>
                     </div>
                 </div>
-                / تعداد رابطه‌ها: {{sentence.numberOfRelations}}
+                / تعداد رابطه‌ها:
+                <span ng-if="sentence.numberOfRelations==0">0</span>
+                <span ng-if="sentence.numberOfRelations>0" style="color: red">{{sentence.numberOfRelations}}</span>
                 <md-button md-colors="{background: 'grey'}" class="md-fab md-mini no-margin"
                            ng-click="setNumberOfRelations($index, 0)">۰
                 </md-button>
