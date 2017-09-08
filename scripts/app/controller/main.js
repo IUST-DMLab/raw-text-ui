@@ -1,4 +1,4 @@
-app.controller('MainController', function ($scope, $http, RestService,
+app.controller('MainController', function ($scope, $http, $window, RestService,
                                            $cookieStore, $mdSidenav, $timeout,
                                            $filter, $mdDialog, $mdToast, $localStorage) {
 
@@ -428,18 +428,20 @@ app.controller('MainController', function ($scope, $http, RestService,
             });
     };
 
-    $scope.searchArticles = function () {
-        RestService.searchArticles($scope.repository.page, 20,
+    $scope.searchArticles = function (page) {
+        if (page === undefined) page = 1;
+        RestService.searchArticles(page - 1, 10,
             $scope.repository.pathSearch, $scope.repository.title,
             $scope.repository.minPercentOfRelations, $scope.repository.approved)
             .then(function (response) {
                 console.log(response.data);
                 $scope.repository.articles = response.data;
+                $scope.repository.articles.pageNo = $scope.repository.articles.number + 1;
             });
     };
 
     $scope.$watch('repository.tab', function (current, old) {
-        if (current === 2) $scope.searchArticles();
+        if (2 === current) $scope.searchArticles();
     });
 
     $scope.editArticle = function (index) {
@@ -528,6 +530,7 @@ app.controller('MainController', function ($scope, $http, RestService,
         $scope.addAsCard = function () {
             RestService.selectForOccurrence(buildSelection())
                 .then(function (response) {
+                    sentence.numberOfRelations++;
                     toast('به سه‌تایی‌های طلایی افزوده شد.');
                 });
         };
@@ -535,6 +538,7 @@ app.controller('MainController', function ($scope, $http, RestService,
         $scope.addAsDepRel = function () {
             RestService.selectForDependencyRelation(buildSelection())
                 .then(function (response) {
+                    sentence.numberOfRelations++;
                     toast('به الگوهای وابستگی افزوده شد.');
                 });
         };
@@ -555,6 +559,10 @@ app.controller('MainController', function ($scope, $http, RestService,
     };
 
     $scope.switch = function (tab) {
+        if (tab === null) {
+            $window.location = "..";
+            return;
+        }
         $scope.storage.selectedTab = tab;
         $scope.tab = tab;
         if (tab === 'triples') {
