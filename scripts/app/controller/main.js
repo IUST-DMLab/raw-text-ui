@@ -560,7 +560,7 @@ app.controller('MainController', function ($scope, $http, $window, RestService,
 
     $scope.switch = function (tab) {
         if (tab === null) {
-            $window.location = "..";
+            $window.location = "../pkg";
             return;
         }
         $scope.storage.selectedTab = tab;
