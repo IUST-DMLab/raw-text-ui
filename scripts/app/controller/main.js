@@ -117,7 +117,7 @@ app.controller('MainController', function ($scope, $http, $window, RestService,
 
     $scope.rulesOptions = {
         selected: null,
-        text: 'هادی ساعی در شهر ری متولد شد.'
+        text: 'هادی ساعی در شهرری متولد شد.'
     };
 
     $scope.getRules = function () {
