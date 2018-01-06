@@ -264,20 +264,30 @@ app.controller('MainController', function ($scope, $http, $window, RestService,
         $scope.currentPattern.tuples = [];
         angular.forEach($scope.currentPattern.data.relations, function (relation) {
             if (relation.subject && relation.subject.length > 0 &&
-                relation.predicate && relation.predicate.length > 0 &&
+                (relation.manualPredicate || (relation.predicate && relation.predicate.length > 0)) &&
                 relation.object && relation.object.length > 0) {
+                var tree = $scope.currentPattern.dependencyTree;
+                var found = false;
+                if (relation.mandatoryWord) {
+                    angular.forEach(tree, function (p) {
+                        if (p.word === relation.mandatoryWord) found = true;
+                    });
+                }
+                if (relation.mandatoryWord && !found) return;
                 var tuple = {
                     subject: '',
                     predicate: '',
                     object: ''
                 };
-                var tree = $scope.currentPattern.dependencyTree;
                 angular.forEach(relation.subject, function (v) {
                     tuple.subject += (tree[v].word + ' ');
                 });
-                angular.forEach(relation.predicate, function (v) {
-                    tuple.predicate += (tree[v].word + ' ');
-                });
+                if (relation.manualPredicate != null)
+                    tuple.predicate = relation.manualPredicate;
+                else
+                    angular.forEach(relation.predicate, function (v) {
+                        tuple.predicate += (tree[v].word + ' ');
+                    });
                 angular.forEach(relation.object, function (v) {
                     tuple.object += (tree[v].word + ' ');
                 });
@@ -337,6 +347,14 @@ app.controller('MainController', function ($scope, $http, $window, RestService,
         RestService.fkgfy(text)
             .then(function (response) {
                 $scope.fkgfied = response.data;
+            });
+    };
+
+    $scope.extractTriples = function (text) {
+        RestService.extractTriples(text)
+            .then(function (response) {
+                $scope.extractedTriples = response.data;
+                $scope.noExtracted = $scope.extractedTriples.size === 0;
             });
     };
 

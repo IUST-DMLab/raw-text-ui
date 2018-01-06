@@ -204,6 +204,11 @@ app.service('RestService', ['$http', function ($http) {
         return post(url, {text: text});
     };
 
+    this.extractTriples = function (text) {
+        var url = baseURl + '/rest/v1/raw/extractTriples';
+        return post(url, {text: text});
+    };
+
     this.getEntities = function (entities) {
         var url = mapperUrl + '/entity/rest/v3/getEntities';
         return post(url, {entities: entities});

@@ -3,16 +3,25 @@
         <md-tab label="تشخیص موجودیت">
             <md-content class="md-padding" layout-align="center center" layout-wrap>
                 <md-button ng-click="fkgfy(fkgfyText)" class="md-raised md-primary">
-                    FKGfy
+                    تشخیص و لینک‌دهی موجودیت (FKGfy Entity Linking)
                 </md-button>
                 <md-button ng-click="fkgfyDetailed(fkgfyText)" class="md-raised md-primary">
                     FKGfy با نمایش جزئیات و تصاویر
+                </md-button>
+                <md-button ng-click="extractTriples(fkgfyText)" class="md-raised md-primary">
+                    استخراج سه تایی‌ها
                 </md-button>
                 <md-input-container class="md-block">
                     <label>متن</label>
                     <textarea ng-model="fkgfyText" md-maxlength="5000" rows="4" md-select-on-focus
                               title="text"></textarea>
                 </md-input-container>
+                <div dir="ltr" layout="row" layout-align="start center" layout-wrap>
+                    <div ng-if="noExtracted">هیچ سه تایی از متن استخراج نشد.</div>
+                    <div ng-repeat="x in extractedTriples" flex="25">
+                        <pre style="white-space: pre-wrap">{{x | json}}</pre>
+                    </div>
+                </div>
                 <div dir="rtl" layout="row">
                     <div flex="70" layout="column">
                         <div ng-repeat="sentence in fkgfied">

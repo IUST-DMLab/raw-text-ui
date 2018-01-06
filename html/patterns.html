@@ -87,6 +87,14 @@
                   </md-switch>
                 </div>
               </div>
+              <md-input-container>
+                <label>گزاره خارج از متن</label>
+                <input ng-model="relation.manualPredicate" ng-change="rebuildTuples()">
+              </md-input-container>
+              <md-input-container>
+                <label>کلمه اجباری</label>
+                <input ng-model="relation.mandatoryWord" ng-change="rebuildTuples()">
+              </md-input-container>
             </md-tab>
             <md-tab label="درخت وابستگی">
               <div style="overflow: auto">
