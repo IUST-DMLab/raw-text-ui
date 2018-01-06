@@ -39,7 +39,7 @@
                     </div>
                     <div flex="30" style="border: #bbbbbb dashed 1px; padding: 10px" ng-if="selectedWord">
                         <div ng-if="selectedWord.entityData">
-                            <img ng-if="selectedWord.entityData.image" src="{{selectedWord.entityData.image}}"
+                            <img ng-if="selectedWord.entityData.image != null" src="{{selectedWord.entityData.image}}"
                                  width="200px"/>
                             <div style="display: inline-block;">
                                 {{selectedWord.entityData.abstract}}
