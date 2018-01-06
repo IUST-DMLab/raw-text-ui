@@ -27,8 +27,7 @@
                         <div ng-repeat="sentence in fkgfied">
                             <div ng-repeat="word in sentence"
                                  style="display: inline-block; padding: 4px">
-                                <div class="{{word.iobType}}"
-                                     ng-mouseover="hoverDiv(word)">
+                                <div ng-mouseover="hoverDiv(word)" class="{{word.iobType}}">
                                     <div ng-if="word.resource">
                                         <a href="{{word.resource.iri}}" target="_blank">{{word.word}}</a>
                                     </div>
