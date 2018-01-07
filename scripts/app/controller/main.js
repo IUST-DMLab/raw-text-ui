@@ -347,6 +347,8 @@ app.controller('MainController', function ($scope, $http, $window, RestService,
         RestService.fkgfy(text)
             .then(function (response) {
                 $scope.fkgfied = response.data;
+                if (!self.params) self.params = {};
+                $scope.params.fkgfyTab = 0;
             });
     };
 
@@ -355,6 +357,8 @@ app.controller('MainController', function ($scope, $http, $window, RestService,
             .then(function (response) {
                 $scope.extractedTriples = response.data;
                 $scope.noExtracted = $scope.extractedTriples.size === 0;
+                if (!self.params) self.params = {};
+                $scope.params.fkgfyTab = 1;
             });
     };
 
@@ -381,6 +385,8 @@ app.controller('MainController', function ($scope, $http, $window, RestService,
                             if (index !== -1) $scope.fkgfied[i][j].entityData = entitiesResponse.data[index];
                         }
                     }
+                    if (!self.params) self.params = {};
+                    $scope.params.fkgfyTab = 0;
                 });
             });
     };

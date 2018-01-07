@@ -1,29 +1,23 @@
 <md-content>
-    <md-tabs md-dynamic-height md-border-bottom md-selected="params.st">
-        <md-tab label="تشخیص موجودیت">
-            <md-content class="md-padding" layout-align="center center" layout-wrap>
-                <md-button ng-click="fkgfy(fkgfyText)" class="md-raised md-primary">
-                    تشخیص و لینک‌دهی موجودیت (FKGfy Entity Linking)
-                </md-button>
-                <md-button ng-click="fkgfyDetailed(fkgfyText)" class="md-raised md-primary">
-                    FKGfy با نمایش جزئیات و تصاویر
-                </md-button>
-                <md-button ng-click="extractTriples(fkgfyText)" class="md-raised md-primary">
-                    استخراج سه تایی‌ها
-                </md-button>
-                <md-input-container class="md-block">
-                    <label>متن</label>
-                    <textarea ng-model="fkgfyText" md-maxlength="5000" rows="4" md-select-on-focus
-                              title="text"></textarea>
-                </md-input-container>
-                <div dir="ltr" layout="row" layout-align="start center" layout-wrap>
-                    <div ng-if="noExtracted">هیچ سه تایی از متن استخراج نشد.</div>
-                    <div ng-repeat="x in extractedTriples" flex="25">
-                        <pre style="white-space: pre-wrap">{{x | json}}</pre>
-                    </div>
-                </div>
+    <md-content class="md-padding" layout-align="center center" layout-wrap>
+        <md-input-container class="md-block">
+            <label>متن مورد نظر خود را در اینجا کپی کنید</label>
+            <textarea ng-model="fkgfyText" md-maxlength="10000" rows="2" md-select-on-focus
+                      title="text"></textarea>
+        </md-input-container>
+        <md-button ng-click="fkgfy(fkgfyText)" class="md-raised">
+            تشخیص و لینک‌دهی موجودیت (FKGfy Entity Linking)
+        </md-button>
+        <md-button ng-click="fkgfyDetailed(fkgfyText)" class="md-raised md-warn">
+            FKGfy با نمایش جزئیات و تصاویر
+        </md-button>
+        <md-button ng-click="extractTriples(fkgfyText)" class="md-raised md-primary">
+            استخراج سه تایی‌ها
+        </md-button>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="params.fkgfyTab" ng-show="extractedTriples || fkgfied">
+            <md-tab label="تشخیص موجودیت">
                 <div dir="rtl" layout="row">
-                    <div flex="70" layout="column">
+                    <div flex="70" layout="column" style="max-height: 700px; overflow: scroll">
                         <div ng-repeat="sentence in fkgfied">
                             <div ng-repeat="word in sentence"
                                  style="display: inline-block; padding: 4px">
@@ -38,8 +32,9 @@
                     </div>
                     <div flex="30" style="border: #bbbbbb dashed 1px; padding: 10px" ng-if="selectedWord">
                         <div ng-if="selectedWord.entityData">
-                            <img ng-if="selectedWord.entityData.image != null" src="{{selectedWord.entityData.image}}"
-                                 width="200px"/>
+                            <div ng-if="selectedWord.entityData.image.length>5">
+                                <img src="{{selectedWord.entityData.image}}" width="200px"/>
+                            </div>
                             <div style="display: inline-block;">
                                 {{selectedWord.entityData.abstract}}
                             </div>
@@ -58,7 +53,15 @@
                         </div>
                     </div>
                 </div>
-            </md-content>
-        </md-tab>
-    </md-tabs>
+            </md-tab>
+            <md-tab label="سه‌تایی‌های استخراج شده">
+                <div dir="ltr" layout="row" layout-align="start center" layout-wrap>
+                    <div ng-if="noExtracted">هیچ سه تایی از متن استخراج نشد.</div>
+                    <div ng-repeat="x in extractedTriples" flex="25">
+                        <pre style="white-space: pre-wrap">{{x | json}}</pre>
+                    </div>
+                </div>
+            </md-tab>
+        </md-tabs>
+    </md-content>
 </md-content>
