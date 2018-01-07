@@ -17,7 +17,7 @@
         <md-tabs md-dynamic-height md-border-bottom md-selected="params.fkgfyTab" ng-show="extractedTriples || fkgfied">
             <md-tab label="تشخیص موجودیت">
                 <div dir="rtl" layout="row">
-                    <div flex="70" layout="column" style="max-height: 700px; overflow: scroll">
+                    <div flex="70" layout="column" style="height: 700px; overflow: scroll">
                         <div ng-repeat="sentence in fkgfied">
                             <div ng-repeat="word in sentence"
                                  style="display: inline-block; padding: 4px">
@@ -30,7 +30,8 @@
                             </div>
                         </div>
                     </div>
-                    <div flex="30" style="border: #bbbbbb dashed 1px; padding: 10px" ng-if="selectedWord">
+                    <div flex="30" style="border: #bbbbbb dashed 1px; padding: 10px; height: 700px; overflow: scroll"
+                         ng-if="selectedWord">
                         <div ng-if="selectedWord.entityData">
                             <div ng-if="selectedWord.entityData.image.length>5">
                                 <img src="{{selectedWord.entityData.image}}" width="200px"/>
