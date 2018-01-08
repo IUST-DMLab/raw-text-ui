@@ -42,11 +42,16 @@
                         </div>
                         <div style="display: inline-block">
                             <div><b>لینک اصلی:</b></div>
-                            <b>{{selectedWord.resource.rank}}: </b>
-                            <a href="{{selectedWord.resource.iri}}" target="_blank">
-                                {{selectedWord.resource.iri}}
-                            </a>
-                            <div ng-if="selectedWord.ambiguities.length > 0"><b>ابهامات:</b></div>
+                            <div ng-if="!selectedWord.resource">
+                                هیچ موجودیتی انتخاب نشد
+                            </div>
+                            <div ng-if="selectedWord.resource">
+                                <b>{{selectedWord.resource.rank}}: </b>
+                                <a href="{{selectedWord.resource.iri}}" target="_blank">
+                                    {{selectedWord.resource.iri}}
+                                </a>
+                            </div>
+                            <div ng-if="selectedWord.ambiguities.length > 0"><b>ابهامات دیگر موجودیت</b></div>
                             <div ng-repeat="amb in selectedWord.ambiguities">
                                 <b>{{amb.rank}}: </b>
                                 <a href="{{amb.iri}}" target="_blank">{{amb.rank}}: {{amb.iri}}</a>
