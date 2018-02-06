@@ -20,7 +20,7 @@ app.service('RestService', ['$http', function ($http) {
     function onerror(response) {
 
         if (response.status === 403) {
-            window.location.href = window.location.href + "../";
+            window.location.href = window.location.href + "../pkg";
             return;
         }
 
