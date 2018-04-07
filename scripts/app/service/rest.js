@@ -216,7 +216,7 @@ app.service('RestService', ['$http', function ($http) {
     };
 
     this.getEntities = function (entities) {
-        var url = mapperUrl + '/entity/rest/v3/getEntities';
+        var url = mapperUrl + '/entity/rest/v2/getEntities';
         return post(url, {entities: entities});
     };
 
